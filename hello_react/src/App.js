@@ -10,21 +10,18 @@ import { useState } from "react";
 
 export default function App() {
     //jsx 자료형
-    // let names = ["김준일", "김준이", "김준삼"];
+    let names = ["김준일", "김준이", "김준삼"];
     // useState 비구조 할당
     // const [num1, num2, num3, num4] = [1, 2, 3, 4];
-    const [nameArrayState, setNameArrayState] = useState([
-        "김준일",
-        "김준이",
-        "김준삼",
-    ]);
+    const [nameArrayState, setNameArrayState] = useState(names);
 
-    console.log("콘솔 호출?")
+    console.log("콘솔 호출?");
 
     const handleClick = () => {
         setNameArrayState([...nameArrayState, "김준사"]);
     };
     // 상태관리
+    // 상태가 변하면 렌더링이 다시 된다.
 
     return (
         // 아무런 의미 없는 묶어주기 위한 태그 <Fragment></Fragment>
