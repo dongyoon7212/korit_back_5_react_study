@@ -25,19 +25,25 @@
 
                 const studentInfoList = document.querySelector("ul");
 
-                const newLi = document.createElement("li");
-                const studentInfoText = document.createTextNode(
-                    `이름: ${student.name} / 나이: ${student.age}`
-                );
-                const deleteButton = document.createElement("button");
-                const deleteButtonName = document.createTextNode("삭제");
+                // const newLi = document.createElement("li");
+                // const studentInfoText = document.createTextNode(
+                //     `이름: ${student.name} / 나이: ${student.age}`
+                // );
+                // const deleteButton = document.createElement("button");
+                // const deleteButtonName = document.createTextNode("삭제");
 
-                deleteButton.appendChild(deleteButtonName);
-                
-                newLi.appendChild(studentInfoText);
-                newLi.appendChild(deleteButton);
-                
-                studentInfoList.appendChild(newLi);
+                // deleteButton.appendChild(deleteButtonName);
+
+                // newLi.appendChild(studentInfoText);
+                // newLi.appendChild(deleteButton);
+
+                // studentInfoList.appendChild(newLi);
+
+                // deleteButton.onclick = () => {
+                //     studentInfoList.removeChild(newLi); // 메모리 주소값을 참조하고 있음 그래서 index번호가 없어도 로직이 작동 가능
+                // };
+
+                studentInfoList.innerHTML += `<li>이름: ${student.name} / 나이: ${student.age}<button>삭제</button></li>`;
             }
 
             // function studentInfo({name, age}) {
