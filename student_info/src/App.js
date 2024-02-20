@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
     const studentObj = {
@@ -8,6 +8,20 @@ function App() {
     };
     const [student, setStudent] = useState(studentObj);
     const [inputValues, setInputValues] = useState(studentObj);
+    const [refresh, setRefresh] = useState(false);
+
+    // useEffect
+    // -html Dom 요소 속 변화를 감지.
+    // -끝에 대괄호는 의존성임, 대괄호 속 상태값이 바뀌면 useEffect작동.
+    // -대괄호 안 값이 두개라면 둘 중 하나가 바뀌면이 된다.
+    // -빈값이라면 최초의 한번 실행 후 동작안함.
+    // -최초에는 무조건 한번 실행이 됨.
+    useEffect(() => {
+        if (refresh) {
+            setInputValues(studentObj);
+        }
+        setRefresh(false);
+    }, [student]);
 
     // let email = "email";
     // let phone = "01012345678";
@@ -37,8 +51,15 @@ function App() {
     };
 
     const handleOnOk = () => {
-        setStudent(inputValues);
-        setInputValues(studentObj);
+        new Promise((resolve, reject) => {
+            // 동기처리를 위해 promise를 만든다.
+            // 하지만 함수 실행 후 resolve가 바로 실행되므로 의미 없음.
+            // 그래서 사용하는 것이 useEffect
+            setStudent(inputValues);
+            resolve();
+        }).then(() => {
+            setInputValues(studentObj);
+        });
     };
 
     const handleOnClean = () => {
@@ -55,18 +76,21 @@ function App() {
                 name="name"
                 onChange={handleInputChange}
                 placeholder="이름"
+                value={inputValues.name}
             />
             <input
                 type="text"
                 name="age"
                 onChange={handleInputChange}
                 placeholder="나이"
+                value={inputValues.age}
             />
             <input
                 type="text"
                 name="address"
                 onChange={handleInputChange}
                 placeholder="주소"
+                value={inputValues.address}
             />
             <button onClick={handleOnOk}>확인</button>
             <button onClick={handleOnClean}>비우기</button>
