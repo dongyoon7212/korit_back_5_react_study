@@ -1,8 +1,8 @@
-function StudentInfo({ title, printValue }) {
+function StudentInfo({ title, text }) {
     return (
         <>
             <h1>
-                {title}: {printValue}
+                {title} : {text}
             </h1>
         </>
     );

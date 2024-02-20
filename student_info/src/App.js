@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import StudentInfo from "./components/StudentInfo";
+import InfoInput from "./components/InfoInput";
 
 function App() {
     const studentObj = {
@@ -17,10 +19,15 @@ function App() {
     // -빈값이라면 최초의 한번 실행 후 동작안함.
     // -최초에는 무조건 한번 실행이 됨.
     useEffect(() => {
+        // 마운트
         if (refresh) {
             setInputValues(studentObj);
         }
         setRefresh(false);
+        // return () => {
+        // 언마운트
+        // }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [student]);
 
     // let email = "email";
@@ -68,30 +75,28 @@ function App() {
 
     return (
         <>
-            <h1>이름: {student.name}</h1>
-            <h1>나이: {student.age}</h1>
-            <h1>주소: {student.address}</h1>
-            <input
-                type="text"
+            <StudentInfo title="이름" text={student.name} />
+            <StudentInfo title="나이" text={student.age} />
+            <StudentInfo title="주소" text={student.address} />
+            <InfoInput
                 name="name"
                 onChange={handleInputChange}
                 placeholder="이름"
                 value={inputValues.name}
             />
-            <input
-                type="text"
+            <InfoInput
                 name="age"
                 onChange={handleInputChange}
                 placeholder="나이"
                 value={inputValues.age}
             />
-            <input
-                type="text"
+            <InfoInput
                 name="address"
                 onChange={handleInputChange}
                 placeholder="주소"
                 value={inputValues.address}
             />
+
             <button onClick={handleOnOk}>확인</button>
             <button onClick={handleOnClean}>비우기</button>
         </>

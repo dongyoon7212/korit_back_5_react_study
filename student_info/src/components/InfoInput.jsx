@@ -1,19 +1,11 @@
-import { useState } from "react";
-
-function InfoInput({ title, setGet, value }) {
-    const [inputValue, setInputValue] = useState();
-
-    const handleOnChange = (e) => {
-        setInputValue(e.target.value);
-        setGet(inputValue);
-    };
-
+function InfoInput({ name, onChange, value, placeholder }) {
     return (
         <>
             <input
                 type="text"
-                placeholder={title}
-                onChange={handleOnChange}
+                name={name}
+                onChange={onChange}
+                placeholder={placeholder}
                 value={value}
             />
         </>
