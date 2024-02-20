@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import StudentInfo from "./components/StudentInfo";
 import InfoInput from "./components/InfoInput";
+import InfoButtons from "./components/InfoButtons";
 
 function App() {
     const studentObj = {
@@ -8,9 +9,14 @@ function App() {
         age: "",
         address: "",
     };
+
     const [student, setStudent] = useState(studentObj);
     const [inputValues, setInputValues] = useState(studentObj);
-    const [refresh, setRefresh] = useState(false);
+    const inputRef = {
+        name: useRef(),
+        age: useRef(),
+        address: useRef(),
+    };
 
     // useEffect
     // -html Dom 요소 속 변화를 감지.
@@ -18,12 +24,18 @@ function App() {
     // -대괄호 안 값이 두개라면 둘 중 하나가 바뀌면이 된다.
     // -빈값이라면 최초의 한번 실행 후 동작안함.
     // -최초에는 무조건 한번 실행이 됨.
+
+    useEffect(() => {
+        console.log(inputRef.name.current);
+        console.log(inputRef.age.current);
+        console.log(inputRef.address.current);
+    }, []);
+
     useEffect(() => {
         // 마운트
-        if (refresh) {
-            setInputValues(studentObj);
-        }
-        setRefresh(false);
+
+        setInputValues(studentObj);
+
         // return () => {
         // 언마운트
         // }
@@ -83,22 +95,27 @@ function App() {
                 onChange={handleInputChange}
                 placeholder="이름"
                 value={inputValues.name}
+                inputRef={inputRef.name}
             />
             <InfoInput
                 name="age"
                 onChange={handleInputChange}
                 placeholder="나이"
                 value={inputValues.age}
+                inputRef={inputRef.age}
             />
             <InfoInput
                 name="address"
                 onChange={handleInputChange}
                 placeholder="주소"
                 value={inputValues.address}
+                inputRef={inputRef.address}
             />
-
-            <button onClick={handleOnOk}>확인</button>
-            <button onClick={handleOnClean}>비우기</button>
+            <InfoButtons>
+                {/* 컴포넌트 태그 사이에 있는 태그들이 children이 됨 */}
+                <button onClick={handleOnOk}>확인</button>
+                <button onClick={handleOnClean}>비우기</button>
+            </InfoButtons>
         </>
     );
 }
