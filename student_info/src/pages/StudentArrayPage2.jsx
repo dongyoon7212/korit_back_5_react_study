@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 function StudentArrayPage2() {
     const [scoreList, setScoreList] = useState([]);
     const [inputValue, setInputValue] = useState({
-        id: 0,
+        id: "",
         name: "",
-        score: 0,
+        score: "",
     });
     const [updateId, setUpdateId] = useState();
 
@@ -17,31 +17,32 @@ function StudentArrayPage2() {
     const staticId = useRef(0);
 
     useEffect(() => {
-        handleScoreDatas();
-    }, [scoreList]);
+        // const totalNum = [];
+        // for (let i = 0; i < scoreList.length; i++) {
+        //     totalNum.push(scoreList[i].score);
+        // }
 
-    const handleScoreDatas = () => {
-        const totalNum = [];
-        for (let i = 0; i < scoreList.length; i++) {
-            totalNum.push(scoreList[i].score);
-        }
+        // let totalScore = 0;
+        // for (let i = 0; i < totalNum.length; i++) {
+        //     totalScore += parseInt(totalNum[i]);
+        // }
 
-        let totalScore = 0;
-        for (let i = 0; i < totalNum.length; i++) {
-            totalScore += parseInt(totalNum[i]);
-        }
-
-        let avgScore = 0;
-        if (scoreList.length > 0) {
-            avgScore = totalScore / scoreList.length;
-        } else {
-            avgScore = 0;
-        }
+        // let avgScore = 0;
+        // if (scoreList.length > 0) {
+        //     avgScore = totalScore / scoreList.length;
+        // } else {
+        //     avgScore = 0;
+        // }
+        const total = scoreList.reduce(
+            (result, score) => result + score.score,
+            0
+        );
+        const avg = scoreList.length === 0 ? 0 : total / scoreList.length;
         setScoreDatas({
-            total: totalScore,
-            avg: avgScore.toFixed(2),
+            total,
+            avg,
         });
-    };
+    }, [scoreList]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -53,8 +54,9 @@ function StudentArrayPage2() {
 
     const handleAddClick = () => {
         const score = {
-            ...inputValue,
             id: (staticId.current += 1),
+            name: inputValue.name,
+            score: parseInt(inputValue.score),
         };
         setScoreList([...scoreList, score]);
     };
@@ -172,7 +174,7 @@ function StudentArrayPage2() {
                     </tr>
                     <tr>
                         <th>평균</th>
-                        <th colSpan={2}>{scoreDatas.avg}</th>
+                        <th colSpan={2}>{scoreDatas.avg.toFixed(2)}</th>
                     </tr>
                 </tfoot>
             </table>
