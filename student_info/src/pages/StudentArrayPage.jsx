@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function StudentArrayPage(props) {
+function StudentArrayPage() {
     const [studentList, setStudentList] = useState([]);
-
     const [inputValue, setInputValue] = useState({
+        id: "",
         name: "",
         age: "",
         address: "",
     });
+    const [updateId, setUpdateId] = useState();
 
     const staticId = useRef(0);
     // staticId.current값이 변해도 렌더링 X
@@ -34,9 +35,51 @@ function StudentArrayPage(props) {
         setStudentList([...studentList, student]);
     };
 
+    const handleDeleteClick = (id) => {
+        setStudentList([...studentList.filter((student) => student.id !== id)]);
+        // id값이 다른 것들만 걸러서 추가, == 삭제
+    };
+
+    const handleUpdateClick = (id) => {
+        setUpdateId(id);
+        setInputValue(studentList.filter((student) => student.id === id)[0]);
+    };
+
+    const handleUpdateSubmitClick = () => {
+        const findIndex = studentList.indexOf(
+            studentList.filter((student) => student.id === updateId)[0]
+        ); 
+        // 수정할 인덱스값을 찾아온다.
+        const updateStudentList = [...studentList]; 
+        //원래 있던 배열을 가져와서 대입한다.
+        updateStudentList[findIndex] = inputValue; 
+        // 찾은 인덱스값에 해당하는 배열을 가져와 수정된 내용을 넣는다.
+
+        setStudentList(updateStudentList); 
+        // 수정된 후의 배열을 다시 set한다.
+        handleCancelClick();
+    };
+
+    const handleCancelClick = () => {
+        setUpdateId(0);
+        setInputValue({
+            id: "",
+            name: "",
+            age: "",
+            address: "",
+        });
+    };
+
     return (
         <div>
             <div>
+                <input
+                    type="text"
+                    name="id"
+                    disabled={true}
+                    placeholder="ID"
+                    value={inputValue.id}
+                />
                 <input
                     type="text"
                     name="name"
@@ -77,6 +120,42 @@ function StudentArrayPage(props) {
                                 <td>{student.name}</td>
                                 <td>{student.age}</td>
                                 <td>{student.address}</td>
+                                <td>
+                                    {updateId !== student.id ? ( // true이면
+                                        <button
+                                            onClick={() => {
+                                                handleUpdateClick(student.id);
+                                            }}
+                                        >
+                                            수정
+                                        </button>
+                                    ) : (
+                                        // false이면
+                                        <button
+                                            onClick={handleUpdateSubmitClick}
+                                        >
+                                            확인
+                                        </button>
+                                    )}
+                                </td>
+                                <td>
+                                    {updateId !== student.id ? ( // true이면
+                                        <button
+                                            onClick={() => {
+                                                handleDeleteClick(student.id);
+                                            }}
+                                            // onClick안에서 바로 할 경우 렌더링 될때 바로 실행 되버림.
+                                            // 그래서 함수 안에 함수 호출을 한다.
+                                        >
+                                            삭제
+                                        </button>
+                                    ) : (
+                                        // false이면
+                                        <button onClick={handleCancelClick}>
+                                            취소
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                         );
                     })}
