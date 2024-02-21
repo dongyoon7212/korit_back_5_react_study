@@ -114,12 +114,12 @@ function StudentArrayPage2() {
                 />
                 <button onClick={handleAddClick}>추가</button>
             </div>
-            <table style={{border:"1px solid black"}}>
+            <table>
                 <thead>
                     <tr>
-                        <th style={{border:"1px solid black"}}>ID</th>
-                        <th style={{border:"1px solid black"}}>이름</th>
-                        <th style={{border:"1px solid black"}}>점수</th>
+                        <th>ID</th>
+                        <th>이름</th>
+                        <th>점수</th>
                     </tr>
                 </thead>
                 <tbody>
