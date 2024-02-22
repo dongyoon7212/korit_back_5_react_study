@@ -1,11 +1,12 @@
 import { Link, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 import Memoization from "./pages/Memoization";
 import StudentPage from "./pages/StudentPage";
 import StudentArrayPage from "./pages/StudentArrayPage";
 import StudentArrayPage3 from "./pages/StudentArrayPage3";
 import Params from "./pages/Params";
-import { useState } from "react";
 import SearchPage from "./pages/SearchPage";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
     const [value, setValue] = useState("");
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/sta3" element={<StudentArrayPage3 />} />
                 <Route path="/p" element={<Params />} />
                 <Route path="/books" element={<SearchPage />} />
+                <Route path="/product/:productId" element={<ProductPage />} />
             </Routes>
         </>
     );
