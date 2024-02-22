@@ -5,8 +5,12 @@ export const layout = css`
     top: 0;
     left: 0;
 
-    width: 200px;
+    width: 300px;
     height: 100%;
 
     background-color: black;
+`;
+
+export const toggleButton = css`
+    
 `;
