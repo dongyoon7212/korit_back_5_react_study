@@ -12,7 +12,7 @@ function SideBar() {
         () => [
             {
                 id: 1,
-                path: "/mymage",
+                path: "/mypage",
                 name: "마이페이지",
             },
             {
@@ -34,9 +34,14 @@ function SideBar() {
             <button css={S.toggleButton} onClick={() => setIsShow(!isShow)}>
                 {isShow ? <FaCaretLeft /> : <FaCaretRight />}
             </button>
-            <ul>
+            <ul css={S.menuList}>
                 {menus.map((menu) => (
-                    <Link to={menu.path} key={menu.id}>
+                    <Link
+                        css={S.menuItem}
+                        to={menu.path}
+                        key={menu.id}
+                        onClick={() => setIsShow(false)}
+                    >
                         <li>{menu.name}</li>
                     </Link>
                 ))}
