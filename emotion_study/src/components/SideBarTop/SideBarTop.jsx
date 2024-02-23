@@ -35,7 +35,12 @@ function SideBarTop() {
             </button>
             <ul css={S.menuList}>
                 {menus.map((menu) => (
-                    <Link to={menu.path} css={S.menuItem} key={menu.id}>
+                    <Link
+                        to={menu.path}
+                        css={S.menuItem}
+                        key={menu.id}
+                        onClick={() => setIsShow(false)}
+                    >
                         <li>{menu.name}</li>
                     </Link>
                 ))}

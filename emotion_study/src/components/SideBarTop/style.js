@@ -14,7 +14,6 @@ export const layout = (isShow) => css`
     align-items: center;
     border-bottom: 1px solid #dbdbdb;
     border-left: 1px solid #dbdbdb;
-    border-bottom-left-radius: 10px;
     box-shadow: 1px 0px 5px #00000022;
     background-color: white;
 `;

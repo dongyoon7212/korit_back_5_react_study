@@ -7,8 +7,6 @@ export const layout = (isShow) => css`
     top: 0;
     left: ${isShow ? "0px" : "-300px"};
 
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
     border-right: 1px solid #dbdbdb;
 
     width: 300px;
