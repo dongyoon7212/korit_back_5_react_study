@@ -9,6 +9,10 @@ function Mypage() {
     const handleImgFileChange = (e) => {
         const fileReader = new FileReader();
 
+        if (e.target.files.length === 0) {
+            return;
+        }
+
         fileReader.onload = (e) => {
             setPreview(e.target.result);
         };
