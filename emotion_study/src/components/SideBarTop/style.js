@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 export const layout = (isShow) => css`
     box-sizing: border-box;
     position: fixed;
+    z-index: 99;
     right: 0;
     top: ${isShow ? "0px" : "-70px"};
     transition: top 0.5s ease-in-out;
@@ -15,19 +16,21 @@ export const layout = (isShow) => css`
     border-left: 1px solid #dbdbdb;
     border-bottom-left-radius: 10px;
     box-shadow: 1px 0px 5px #00000022;
+    background-color: white;
 `;
 
 export const menuList = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 `;
 
 export const menuItem = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
+    width: 20%;
     height: 40px;
     text-decoration: none;
     font-weight: 600;
