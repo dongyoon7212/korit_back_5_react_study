@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
-import { useMemo, useState } from "react";
-import * as S from "./style";
-import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
 
-function SideBar() {
+import * as S from "./style";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+
+function SideBarTop() {
     const [isShow, setIsShow] = useState(false);
-
     const menus = useMemo(
         () => [
             {
@@ -28,15 +28,14 @@ function SideBar() {
         ],
         []
     );
-
     return (
         <aside css={S.layout(isShow)}>
             <button css={S.toggleButton} onClick={() => setIsShow(!isShow)}>
-                {isShow ? <FaCaretLeft /> : <FaCaretRight />}
+                {isShow ? <FaAngleUp /> : <FaAngleDown />}
             </button>
             <ul css={S.menuList}>
                 {menus.map((menu) => (
-                    <Link css={S.menuItem} path={menu.path} key={menu.id}>
+                    <Link path={menu.path} css={S.menuItem} key={menu.id}>
                         <li>{menu.name}</li>
                     </Link>
                 ))}
@@ -45,4 +44,4 @@ function SideBar() {
     );
 }
 
-export default SideBar;
+export default SideBarTop;
