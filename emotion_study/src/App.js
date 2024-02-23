@@ -10,6 +10,7 @@ function App() {
             <SideBar />
             <SideBarTop />
             <Routes>
+                <Route path="/" element={<>메인페이지</>} />
                 <Route path="/mypage" element={<>마이페이지</>} />
                 <Route path="/board" element={<>게시판</>} />
                 <Route path="/notice" element={<>공지사항</>} />

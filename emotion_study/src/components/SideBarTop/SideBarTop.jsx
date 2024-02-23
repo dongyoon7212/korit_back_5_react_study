@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
-import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 
 import * as S from "./style";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function SideBarTop() {
     const [isShow, setIsShow] = useState(false);
@@ -35,7 +35,7 @@ function SideBarTop() {
             </button>
             <ul css={S.menuList}>
                 {menus.map((menu) => (
-                    <Link path={menu.path} css={S.menuItem} key={menu.id}>
+                    <Link to={menu.path} css={S.menuItem} key={menu.id}>
                         <li>{menu.name}</li>
                     </Link>
                 ))}

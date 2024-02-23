@@ -28,6 +28,7 @@ function SideBar() {
         ],
         []
     );
+    console.log(menus[0].path);
 
     return (
         <aside css={S.layout(isShow)}>
@@ -36,7 +37,7 @@ function SideBar() {
             </button>
             <ul css={S.menuList}>
                 {menus.map((menu) => (
-                    <Link css={S.menuItem} path={menu.path} key={menu.id}>
+                    <Link css={S.menuItem} to={menu.path} key={menu.id}>
                         <li>{menu.name}</li>
                     </Link>
                 ))}
