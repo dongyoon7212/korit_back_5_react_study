@@ -14,50 +14,41 @@ const imageLayout = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid #dbdbdb;
+    margin-bottom: 20px;
+    width: 300px;
+    height: 300px;
     overflow: hidden;
-    width: 200px;
-    height: 200px;
     & > img {
         width: 100%;
     }
 `;
 
 function ImageEx() {
-    const [preview, setPreview] = useState([]);
+    const [previews, setPreviews] = useState([]);
 
     const imgFileRef = useRef();
 
     const handleImgFileChange = (e) => {
-        const fileArr = e.target.files;
+        console.log(e.target.files);
 
-        let fileURLs = [];
-
-        let file;
-        let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-
-        for (let i = 0; i < filesLength; i++) {
-            file = fileArr[i];
-
-            let reader = new FileReader();
-            reader.onload = () => {
-                fileURLs[i] = reader.result;
-                setPreview([...fileURLs]);
-            };
-            reader.readAsDataURL(file);
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            console.log(e.target.result);
+            setPreviews([...previews, e.target.result]);
+        };
+        for (let file of e.target.files) {
+            fileReader.readAsDataURL(file); 
         }
     };
 
     return (
         <div css={layout}>
-            <div css={imageLayout}>
-                <img src={preview[0]} alt="" />
-            </div>
-            <div css={imageLayout}>
-                <img src={preview[1]} alt="" />
-            </div>
-            <div css={imageLayout}>
-                <img src={preview[2]} alt="" />
-            </div>
+            {previews.map((preview, index) => (
+                <div key={index} css={imageLayout}>
+                    <img src={preview} alt="" />
+                </div>
+            ))}
             <input
                 style={{ display: "none" }}
                 type="file"
