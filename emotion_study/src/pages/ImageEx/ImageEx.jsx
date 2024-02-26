@@ -5,6 +5,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import { storage } from "../../configs/firebase/firebaseConfig";
 import { Line } from "rc-progress";
+import { v4 as uuid } from "uuid";
 
 const layout = css`
     display: flex;
@@ -90,7 +91,7 @@ function ImageEx() {
 
     const handleImageUpload = () => {
         const file = uploadFiles[0];
-        const storageRef = ref(storage, `files/test/${file.name}`);
+        const storageRef = ref(storage, `files/test/${uuid() + file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         uploadTask.on(
