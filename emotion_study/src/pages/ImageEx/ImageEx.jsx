@@ -30,13 +30,13 @@ function ImageEx() {
     const imgFileRef = useRef();
 
     const handleImgFileChange = (e) => {
-        console.log(e.target.files);
+        //map함수를 사용하기 위해 일반 배열로 바꿔준다.
+        const files = Array.from(e.target.files);
 
         let promises = [];
 
-        for (let file of e.target.files) {
-            promises = [
-                ...promises,
+        promises = files.map(
+            (file) =>
                 new Promise((resolve) => {
                     const fileReader = new FileReader();
 
@@ -46,9 +46,24 @@ function ImageEx() {
                     };
 
                     fileReader.readAsDataURL(file);
-                }),
-            ];
-        }
+                })
+        );
+
+        // for (let file of e.target.files) {
+        //     promises = [
+        //         ...promises,
+        //         new Promise((resolve) => {
+        //             const fileReader = new FileReader();
+
+        //             fileReader.onload = (e) => {
+        //                 console.log(e.target.result);
+        //                 resolve(e.target.result);
+        //             };
+
+        //             fileReader.readAsDataURL(file);
+        //         }),
+        //     ];
+        // }
 
         Promise.all(promises).then((result) => {
             console.log(result);
