@@ -101,7 +101,7 @@ function ImageEx() {
             (error) => {}, // 에러 처리
             () => {
                 // 완료된 후 처리
-                alert("업로드 완료")
+                alert("업로드 완료");
             }
         );
     };
@@ -116,7 +116,7 @@ function ImageEx() {
                     <Line
                         percent={progressPercent}
                         strokeWidth={4}
-                        strokeColor={"#22222"}
+                        strokeColor={"#dbdbdb"}
                     />
                 </>
             ))}
