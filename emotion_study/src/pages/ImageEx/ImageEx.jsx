@@ -32,14 +32,28 @@ function ImageEx() {
     const handleImgFileChange = (e) => {
         console.log(e.target.files);
 
-        const fileReader = new FileReader();
-        fileReader.onload = (e) => {
-            console.log(e.target.result);
-            setPreviews([...previews, e.target.result]);
-        };
+        let promises = [];
+
         for (let file of e.target.files) {
-            fileReader.readAsDataURL(file); 
+            promises = [
+                ...promises,
+                new Promise((resolve) => {
+                    const fileReader = new FileReader();
+
+                    fileReader.onload = (e) => {
+                        console.log(e.target.result);
+                        resolve(e.target.result);
+                    };
+
+                    fileReader.readAsDataURL(file);
+                }),
+            ];
         }
+
+        Promise.all(promises).then((result) => {
+            console.log(result);
+            setPreviews(result);
+        });
     };
 
     return (
