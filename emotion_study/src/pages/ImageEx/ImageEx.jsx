@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from "@emotion/react";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { useRef, useState } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useEffect, useRef, useState } from "react";
 import { storage } from "../../configs/firebase/firebaseConfig";
 import { Line } from "rc-progress";
 
@@ -31,8 +31,13 @@ function ImageEx() {
     const [uploadFiles, setUploadFiles] = useState([]);
     const [previews, setPreviews] = useState([]);
     const [progressPercent, setProgressPercent] = useState(0);
+    const [url, setUrl] = useState("");
 
     const imgFileRef = useRef();
+
+    useEffect(() => {
+        setUrl(!localStorage.getItem("url") ? "" : localStorage.getItem("url"));
+    }, []);
 
     const handleImgFileChange = (e) => {
         //map함수를 사용하기 위해 일반 배열로 바꿔준다.
@@ -98,16 +103,25 @@ function ImageEx() {
                     ) * 100
                 );
             },
-            (error) => {}, // 에러 처리
+            (error) => {
+                alert(error);
+            }, // 에러 처리
             () => {
                 // 완료된 후 처리
-                alert("업로드 완료");
+                getDownloadURL(storageRef).then((url) => {
+                    localStorage.setItem("url", url);
+                    setUrl(url);
+                    setPreviews([]);
+                });
             }
         );
     };
 
     return (
         <div css={layout}>
+            <div css={imageLayout}>
+                <img src={url} alt="" />
+            </div>
             {previews.map((preview, index) => (
                 <>
                     <div key={index} css={imageLayout}>
@@ -115,8 +129,9 @@ function ImageEx() {
                     </div>
                     <Line
                         percent={progressPercent}
-                        strokeWidth={4}
-                        strokeColor={"#dbdbdb"}
+                        strokeWidth={1}
+                        strokeLinecap={"round"}
+                        strokeColor={"#26f813"}
                     />
                 </>
             ))}
