@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from "@emotion/react";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
@@ -9,17 +8,17 @@ import { v4 as uuid } from "uuid";
 
 const layout = css`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 `;
 
 const imageLayout = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #dbdbdb;
     margin-bottom: 20px;
+    border: 1px solid #dbdbdb;
     width: 300px;
     height: 300px;
     overflow: hidden;
@@ -29,119 +28,146 @@ const imageLayout = css`
 `;
 
 function ImageEx() {
-    const [uploadFiles, setUploadFiles] = useState([]);
-    const [previews, setPreviews] = useState([]);
-    const [progressPercent, setProgressPercent] = useState(0);
-    const [url, setUrl] = useState("");
-
+    const uploadFilesId = useRef(0);
+    const [oldFiles, setOldFiles] = useState([]);
+    const [newFiles, setNewFiles] = useState([]);
     const imgFileRef = useRef();
 
     useEffect(() => {
-        setUrl(!localStorage.getItem("url") ? "" : localStorage.getItem("url"));
+        setOldFiles(
+            !localStorage.getItem("oldFiles")
+                ? []
+                : JSON.parse(localStorage.getItem("oldFiles"))
+        );
     }, []);
 
-    const handleImgFileChange = (e) => {
-        //map함수를 사용하기 위해 일반 배열로 바꿔준다.
-        const files = Array.from(e.target.files);
+    const handleFileChange = (e) => {
+        const loadFiles = Array.from(e.target.files);
 
-        if (files.length === 0) {
+        if (loadFiles.length === 0) {
             imgFileRef.current.value = "";
             return;
         }
 
-        setUploadFiles(files);
+        const uploadFiles = loadFiles.map((file) => {
+            return {
+                id: (uploadFilesId.current += 1),
+                progressPercent: 0,
+                originFile: file,
+                url: "",
+            };
+        });
+
+        uploadFilesId.current = 0;
 
         let promises = [];
 
-        promises = files.map(
+        promises = uploadFiles.map(
             (file) =>
                 new Promise((resolve) => {
                     const fileReader = new FileReader();
 
                     fileReader.onload = (e) => {
-                        console.log(e.target.result);
                         resolve(e.target.result);
                     };
 
-                    fileReader.readAsDataURL(file);
+                    fileReader.readAsDataURL(file.originFile);
                 })
         );
 
-        // for (let file of e.target.files) {
-        //     promises = [
-        //         ...promises,
-        //         new Promise((resolve) => {
-        //             const fileReader = new FileReader();
-
-        //             fileReader.onload = (e) => {
-        //                 console.log(e.target.result);
-        //                 resolve(e.target.result);
-        //             };
-
-        //             fileReader.readAsDataURL(file);
-        //         }),
-        //     ];
-        // }
-
         Promise.all(promises).then((result) => {
-            console.log(result);
-            setPreviews(result);
+            setNewFiles(
+                result.map((dataUrl, index) => {
+                    return {
+                        ...uploadFiles[index],
+                        preview: dataUrl,
+                    };
+                })
+            );
         });
     };
 
     const handleImageUpload = () => {
-        const file = uploadFiles[0];
-        const storageRef = ref(storage, `files/test/${uuid() + file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+        const promises = newFiles.map(
+            (file) =>
+                new Promise((resolve) => {
+                    const storageRef = ref(
+                        storage,
+                        `files/test/${uuid()}_${file.originFile.name}`
+                    );
+                    const uploadTask = uploadBytesResumable(
+                        storageRef,
+                        file.originFile
+                    );
 
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                // 진행 중 상태
-                setProgressPercent(
-                    Math.round(
-                        snapshot.bytesTransferred / snapshot.totalBytes
-                    ) * 100
-                );
-            },
-            (error) => {
-                alert(error);
-            }, // 에러 처리
-            () => {
-                // 완료된 후 처리
-                getDownloadURL(storageRef).then((url) => {
-                    localStorage.setItem("url", url);
-                    setUrl(url);
-                    setPreviews([]);
-                });
-            }
+                    uploadTask.on(
+                        "state_changed",
+                        (snapshot) => {
+                            setNewFiles(
+                                newFiles.map((sFile) => {
+                                    return sFile.id !== file.id
+                                        ? sFile
+                                        : {
+                                              ...sFile,
+                                              percent: Math.round(
+                                                  (snapshot.bytesTransferred /
+                                                      snapshot.totalBytes) *
+                                                      100
+                                              ),
+                                          };
+                                })
+                            );
+                        },
+                        (error) => {},
+                        () => {
+                            getDownloadURL(storageRef).then((url) => {
+                                const newFile = {
+                                    ...file,
+                                    ["url"]: url,
+                                };
+                                resolve(newFile);
+                            });
+                        }
+                    );
+                })
         );
+
+        Promise.all(promises)
+            .then((newFile) => {
+                setOldFiles(newFile);
+                localStorage.setItem("oldFiles", JSON.stringify(newFile));
+            })
+            .then(() => {
+                setNewFiles([]);
+            });
     };
 
     return (
         <div css={layout}>
-            <div css={imageLayout}>
-                <img src={url} alt="" />
-            </div>
-            {previews.map((preview, index) => (
+            {oldFiles?.map((file) => (
+                <div key={file.id} css={imageLayout}>
+                    <img src={file.url} alt="" />
+                </div>
+            ))}
+            {newFiles?.map((file) => (
                 <>
-                    <div key={index} css={imageLayout}>
-                        <img src={preview} alt="" />
+                    <div key={file.id} css={imageLayout}>
+                        <img src={file.preview} alt="" />
                     </div>
                     <Line
-                        percent={progressPercent}
-                        strokeWidth={1}
-                        strokeLinecap={"round"}
-                        strokeColor={"#26f813"}
+                        percent={file.percent}
+                        strokeWidth={4}
+                        strokeColor={"#dbdbdb"}
                     />
                 </>
             ))}
+
             <input
                 style={{ display: "none" }}
                 type="file"
-                multiple
+                multiple={true}
                 ref={imgFileRef}
-                onChange={handleImgFileChange}
+                onChange={handleFileChange}
             />
             <button onClick={() => imgFileRef.current.click()}>
                 이미지 불러오기
