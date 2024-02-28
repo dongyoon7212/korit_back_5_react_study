@@ -20,6 +20,7 @@ export function useInput() {
     return [inputValue, onChange];
 }
 
+// 커스텀 훅을 작성하면 주석으로 설명을 달아야 한다.
 /**
  *
  * @param {*} maxSize
