@@ -2,7 +2,8 @@ import ImageEx from "../pages/ImageEx/ImageEx";
 import ImageEx3 from "../pages/ImageEx3/ImageEx3";
 import ImageEx2 from "../pages/ImageEx2/ImageEx2";
 import Mypage from "../pages/Mypage/Mypage";
-import BoardEx from "../pages/BoardEx/BoardEx";
+import BoardWrite from "../pages/BoardWrite/BoardWrite";
+import BoardList from "../pages/BoardList/BoardList";
 
 export const MENUS = [
     {
@@ -43,8 +44,14 @@ export const MENUS = [
     },
     {
         id: 7,
-        path: "/board/ex",
+        path: "/board/write",
         name: "게시글 작성",
-        element: <BoardEx />,
+        element: <BoardWrite />,
+    },
+    {
+        id: 8,
+        path: "/board/list",
+        name: "게시글 목록",
+        element: <BoardList />,
     },
 ];
