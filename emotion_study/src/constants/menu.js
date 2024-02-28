@@ -1,6 +1,8 @@
 import ImageEx from "../pages/ImageEx/ImageEx";
 import ImageEx3 from "../pages/ImageEx3/ImageEx3";
+import ImageEx2 from "../pages/ImageEx2/ImageEx2";
 import Mypage from "../pages/Mypage/Mypage";
+import BoardEx from "../pages/BoardEx/BoardEx";
 
 export const MENUS = [
     {
@@ -31,6 +33,18 @@ export const MENUS = [
         id: 5,
         path: "/image/ex2",
         name: "다중 이미지 불러오기",
+        element: <ImageEx2 />,
+    },
+    {
+        id: 6,
+        path: "/image/ex3",
+        name: "다중 이미지 불러오기",
         element: <ImageEx3 />,
+    },
+    {
+        id: 7,
+        path: "/board/ex",
+        name: "게시글 작성",
+        element: <BoardEx />,
     },
 ];

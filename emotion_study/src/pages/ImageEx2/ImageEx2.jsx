@@ -123,7 +123,7 @@ function ImageEx() {
                             getDownloadURL(storageRef).then((url) => {
                                 const newFile = {
                                     ...file,
-                                    ["url"]: url,
+                                    [url]: url,
                                 };
                                 resolve(newFile);
                             });
