@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import ReactQuill from "react-quill";
 import { QUILL_MODULES } from "../../constants/quillModules";
 import { useRef, useState } from "react";
-import { useInput } from "../../hooks/inputHook";
+import { useMaxSizeValidateInput } from "../../hooks/inputHook";
 
 const layout = css`
     display: flex;
@@ -58,7 +58,7 @@ function BoardWrite() {
     });
 
     // Custom Hook
-    const [inputValue, handleInputChange] = useInput();
+    const [inputValue, handleInputChange] = useMaxSizeValidateInput(10);
     // 변수명만 바꾸면 재사용 가능
     // const [inputValue2, handleInputChange2] = useInput();
 

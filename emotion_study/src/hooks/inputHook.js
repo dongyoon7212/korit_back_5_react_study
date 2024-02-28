@@ -12,10 +12,27 @@ export function useInput() {
 
         // setInputValue((iv) => (value.length < 20 ? value : iv));
         //상태를 계속 변화시킴(재렌더링이 계속 일어남)
-        if (value.length < 20) {
+        setInputValue(() => value);
+
+        //그래서 if문을 걸어 렌더링을 최소화 한다.
+    };
+
+    return [inputValue, onChange];
+}
+
+/**
+ *
+ * @param {*} maxSize
+ * @returns 최대 글자 값
+ */
+export function useMaxSizeValidateInput(maxSize) {
+    const [inputValue, setInputValue] = useState("");
+
+    const onChange = (e) => {
+        const { value } = e.target;
+        if (value.length <= maxSize) {
             setInputValue(() => value);
         }
-        //그래서 if문을 걸어 렌더링을 최소화 한다.
     };
 
     return [inputValue, onChange];
