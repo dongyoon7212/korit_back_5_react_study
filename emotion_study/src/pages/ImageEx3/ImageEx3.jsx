@@ -48,9 +48,9 @@ function ImageEx3() {
         }
 
         // console.log(fileArray.map((file) => file.name));
-        const promises = [];
+        let promises = [];
 
-        fileArray.map(
+        promises = fileArray.map(
             (file) =>
                 new Promise((resolve) => {
                     const loadImage = {
@@ -70,7 +70,6 @@ function ImageEx3() {
         );
 
         Promise.all(promises).then((result) => {
-            console.log(result);
             setLoadImages(result);
         });
     };
