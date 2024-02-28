@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
+import { useLoadList } from "../../hooks/boardListHook";
 
 const layout = css`
     display: flex;
@@ -26,7 +27,7 @@ const boardListLayout = css`
 const boardListHeader = css`
     box-sizing: border-box;
     display: flex;
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 2px solid #dbdbdb;
     width: 100%;
     & > div {
         box-sizing: border-box;
@@ -45,7 +46,37 @@ const boardListHeader = css`
     }
 `;
 
+const boardListItem = css`
+    color: #222;
+    text-decoration: none;
+    cursor: pointer;
+    & > li {
+        box-sizing: border-box;
+        display: flex;
+        border-bottom: 1px solid #dbdbdb;
+        width: 100%;
+        &:hover {
+            background-color: #eee;
+        }
+        & > div {
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            height: 40px;
+        }
+        & > div:nth-of-type(1) {
+            flex-grow: 0;
+            border-right: 1px solid #dbdbdb;
+            width: 80px;
+        }
+    }
+`;
+
 function BoardList() {
+    const { boardList } = useLoadList();
+
     return (
         <div css={layout}>
             <h1 css={headerTitle}>게시글 목록</h1>
@@ -54,12 +85,18 @@ function BoardList() {
                     <div>번호</div>
                     <div>제목</div>
                 </li>
-                <Link to={"/board/1"}>
-                    <li css={boardListHeader}>
-                        <div>1</div>
-                        <div>test1</div>
-                    </li>
-                </Link>
+                {boardList.map((board) => (
+                    <Link
+                        css={boardListItem}
+                        to={`/board/${board.boardId}`}
+                        key={board.boardId}
+                    >
+                        <li>
+                            <div>{board.boardId}</div>
+                            <div>{board.boardTitle}</div>
+                        </li>
+                    </Link>
+                ))}
             </ul>
         </div>
     );

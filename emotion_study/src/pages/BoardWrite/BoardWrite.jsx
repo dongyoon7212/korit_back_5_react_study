@@ -67,7 +67,7 @@ function BoardWrite() {
     const handleSubmitClick = () => {
         const lastIndex = boardList.length - 1;
         const lastId = lastIndex < 0 ? 0 : boardList[lastIndex].boardId;
-
+        
         const board = {
             boardId: lastId + 1,
             boardTitle: inputValue,
