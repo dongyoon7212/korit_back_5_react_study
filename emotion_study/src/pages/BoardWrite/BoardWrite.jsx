@@ -2,10 +2,10 @@
 import { css } from "@emotion/react";
 import ReactQuill from "react-quill";
 import { QUILL_MODULES } from "../../constants/quillModules";
-import { useMemo } from "react";
 import { useMaxSizeValidateInput } from "../../hooks/inputHook";
 import { useQuillInput } from "../../hooks/quillHook";
 import { useNavigate } from "react-router-dom";
+import { useLoadList } from "../../hooks/boardListHook";
 
 const layout = css`
     display: flex;
@@ -56,18 +56,11 @@ function BoardWrite() {
     // Custom Hook
     const [inputValue, handleInputChange] = useMaxSizeValidateInput(10);
     const [quillValue, handleQuillValueChange] = useQuillInput();
+    const { boardList, lastId } = useLoadList;
     // 변수명만 바꾸면 재사용 가능
     // const [inputValue2, handleInputChange2] = useInput();
 
-    const boardList = useMemo(() => {
-        const lsBoardList = localStorage.getItem("boardList");
-        return !lsBoardList ? [] : JSON.parse(lsBoardList);
-    }, []);
-
     const handleSubmitClick = () => {
-        const lastIndex = boardList.length - 1;
-        const lastId = lastIndex < 0 ? 0 : boardList[lastIndex].boardId;
-        
         const board = {
             boardId: lastId + 1,
             boardTitle: inputValue,
