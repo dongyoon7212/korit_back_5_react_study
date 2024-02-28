@@ -2,9 +2,10 @@
 import { css } from "@emotion/react";
 import ReactQuill from "react-quill";
 import { QUILL_MODULES } from "../../constants/quillModules";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { useMaxSizeValidateInput } from "../../hooks/inputHook";
 import { useQuillInput } from "../../hooks/quillHook";
+import { useNavigate } from "react-router-dom";
 
 const layout = css`
     display: flex;
@@ -51,6 +52,7 @@ const submitButton = css`
 `;
 
 function BoardWrite() {
+    const navigate = useNavigate();
     // Custom Hook
     const [inputValue, handleInputChange] = useMaxSizeValidateInput(10);
     const [quillValue, handleQuillValueChange] = useQuillInput();
@@ -58,15 +60,24 @@ function BoardWrite() {
     // const [inputValue2, handleInputChange2] = useInput();
 
     const boardList = useMemo(() => {
-        return JSON.parse(localStorage.getItem("boardList"));
+        const lsBoardList = localStorage.getItem("boardList");
+        return !lsBoardList ? [] : JSON.parse(lsBoardList);
     }, []);
 
     const handleSubmitClick = () => {
+        const lastIndex = boardList.length - 1;
+        const lastId = lastIndex < 0 ? 0 : boardList[lastIndex].boardId;
+
         const board = {
-            boardId: 1,
+            boardId: lastId + 1,
             boardTitle: inputValue,
             boardContent: quillValue,
         };
+
+        const newBoardList = [...boardList, board];
+        localStorage.setItem("boardList", JSON.stringify(newBoardList));
+        alert("게시글 저장 완료");
+        navigate("/board/list");
     };
 
     return (
