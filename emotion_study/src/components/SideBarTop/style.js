@@ -7,7 +7,7 @@ export const layout = (isShow) => css`
     right: 0;
     top: ${isShow ? "0px" : "-70px"};
     transition: top 0.5s ease-in-out;
-    width: 50%;
+    width: 60%;
     height: 70px;
     display: flex;
     justify-content: center;
