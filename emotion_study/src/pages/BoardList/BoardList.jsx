@@ -1,10 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Link, useSearchParams } from "react-router-dom";
-import {
-    useLoadList,
-    useLoadListByPageNumber,
-} from "../../hooks/boardListHook";
+import { useLoadListByPageNumber } from "../../hooks/boardListHook";
 
 const layout = css`
     display: flex;
@@ -128,7 +125,11 @@ function BoardList() {
                     <Link to={`/board/list?page=${1}`}>처음으로</Link>
                 )}
                 {page !== 1 && (
-                    <Link to={`/board/list?page=${startPageNumber - 5}`}>
+                    <Link
+                        to={`/board/list?page=${
+                            startPageNumber - 5 < 0 ? 1 : startPageNumber - 5
+                        }`}
+                    >
                         &#171;
                     </Link>
                 )}
