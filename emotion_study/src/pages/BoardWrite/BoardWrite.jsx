@@ -54,20 +54,23 @@ const submitButton = css`
 function BoardWrite() {
     const navigate = useNavigate();
     // Custom Hook
-    const [inputValue, handleInputChange] = useMaxSizeValidateInput(10);
+    const [inputValue, handleInputChange] = useMaxSizeValidateInput(20);
     const [quillValue, handleQuillValueChange] = useQuillInput();
     const { boardList, lastId } = useLoadList;
     // 변수명만 바꾸면 재사용 가능
     // const [inputValue2, handleInputChange2] = useInput();
 
     const handleSubmitClick = () => {
-        const board = {
-            boardId: lastId + 1,
-            boardTitle: inputValue,
-            boardContent: quillValue,
-        };
+        let newBoardList = [];
+        for (let i = 0; i < 203; i++) {
+            const board = {
+                boardId: i + 1,
+                boardTitle: inputValue + (i + 1),
+                boardContent: quillValue,
+            };
+            newBoardList = [...newBoardList, board];
+        }
 
-        const newBoardList = [...boardList, board];
         localStorage.setItem("boardList", JSON.stringify(newBoardList));
         alert("게시글 저장 완료");
         navigate("/board/list");

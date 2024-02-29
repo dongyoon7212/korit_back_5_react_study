@@ -18,7 +18,7 @@ function SideBar() {
                 {MENUS.map((menu) => (
                     <Link
                         css={S.menuItem}
-                        to={menu.path}
+                        to={menu.path + (!!menu.params && menu.params.page)}
                         key={menu.id}
                         onClick={() => setIsShow(false)}
                     >
