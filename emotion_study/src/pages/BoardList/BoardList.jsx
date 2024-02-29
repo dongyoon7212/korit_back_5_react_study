@@ -90,8 +90,8 @@ const pageNumberLayout = (page) => css`
         text-decoration: none;
         color: #222;
         font-weight: 700;
-        &:nth-of-type(${page === 1 ? 1 : page + 3}) {
-            background-color: #fafafa;
+        &:nth-of-type(${page === 1 ? 1 : page % 5 === 0 ? 8 : (page % 5) + 3}) {
+            background-color: #dbdbdb;
         }
     }
 `;
@@ -101,8 +101,6 @@ function BoardList() {
     const page = parseInt(searchParams.get("page"));
     const { boardList, pageNumbers, totalPageCount, startPageNumber } =
         useLoadListByPageNumber(page);
-
-    console.log(totalPageCount);
 
     return (
         <div css={layout}>
@@ -138,7 +136,10 @@ function BoardList() {
                     <Link to={`/board/list?page=${page - 1}`}>&#60;</Link>
                 )}
                 {pageNumbers.map((pageNumber) => (
-                    <Link to={`/board/list?page=${pageNumber}`}>
+                    <Link
+                        key={pageNumber}
+                        to={`/board/list?page=${pageNumber}`}
+                    >
                         {pageNumber}
                     </Link>
                 ))}
