@@ -21,7 +21,7 @@ export function useLoadListByPageNumber(page) {
         const lsBoardList = localStorage.getItem("boardList");
         const loadBoardList = !lsBoardList ? [] : JSON.parse(lsBoardList);
         return loadBoardList;
-    }, [page]);
+    }, []);
 
     const boardList = loadBoardList.filter(
         (board, index) =>
