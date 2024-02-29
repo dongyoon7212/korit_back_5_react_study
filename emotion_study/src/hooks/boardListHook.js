@@ -15,16 +15,24 @@ export function useLoadList() {
 }
 
 export function useLoadListByPageNumber(page) {
-    const boardList = useMemo(() => {
-        const lsBoardList = localStorage.getItem("boardList");
-        return !lsBoardList ? [] : JSON.parse(lsBoardList);
-    }, [page]);
-
     const pageNumber = parseInt(page);
 
-    const size = boardList.length;
+    const loadBoardList = useMemo(() => {
+        const lsBoardList = localStorage.getItem("boardList");
+        const loadBoardList = !lsBoardList ? [] : JSON.parse(lsBoardList);
+        return loadBoardList;
+    }, [page]);
 
-    const totalPageCount = size % 10 === 0 ? size / 10 : size / 10 + 1;
+    const boardList = loadBoardList.filter(
+        (board, index) =>
+            index > pageNumber * 10 - 11 && index < pageNumber * 10
+    );
+
+    const size = loadBoardList.length;
+
+    const totalPageCount = Math.floor(
+        size % 10 === 0 ? size / 10 : size / 10 + 1
+    );
     const startPageNumber =
         pageNumber % 5 === 0
             ? pageNumber - 4
@@ -42,5 +50,5 @@ export function useLoadListByPageNumber(page) {
         return newPageNumbers;
     }, [startPageNumber]);
 
-    return { boardList, size, pageNumbers, totalPageCount };
+    return { boardList, size, pageNumbers, totalPageCount, startPageNumber };
 }

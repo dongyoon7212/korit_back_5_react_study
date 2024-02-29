@@ -18,8 +18,15 @@ function SideBarTop() {
             <ul css={S.menuList}>
                 {MENUS.map((menu) => (
                     <Link
-                        to={menu.path}
                         css={S.menuItem}
+                        to={`${menu.path}${
+                            !menu.params
+                                ? ""
+                                : "?" +
+                                  Object.entries(menu.params)
+                                      .map(([key, value]) => key + "=" + value)
+                                      .join("&")
+                        }`}
                         key={menu.id}
                         onClick={() => setIsShow(false)}
                     >
