@@ -36,3 +36,26 @@ export const menuButton = css`
         font-size: 16px;
     }
 `;
+
+export const profile = css`
+    box-sizing: border-box;
+    border-bottom: 1px solid #dbdbdb;
+    width: 100%;
+    height: 150px;
+`;
+
+export const menuList = css``;
+
+export const menuLink = css`
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 0px 20px;
+    height: 40px;
+    background-color: #fdfdfd;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #222222;
+`;

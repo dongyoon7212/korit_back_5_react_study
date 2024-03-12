@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import * as s from "./style";
 import { HiMenu } from "react-icons/hi";
 import { menuState } from "../../atoms/menuAtom";
+import { Link } from "react-router-dom";
 
 function RootSideMenuLeft() {
     const [show, setShow] = useRecoilState(menuState);
@@ -17,6 +18,10 @@ function RootSideMenuLeft() {
                 <button css={s.menuButton} onClick={handleCloseClick}>
                     <HiMenu />
                 </button>
+            </div>
+            <div css={s.profile}></div>
+            <div css={s.menuList}>
+                <Link css={s.menuLink}>도서 검색</Link>
             </div>
         </div>
     );
