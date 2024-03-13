@@ -3,6 +3,7 @@ import * as s from "./style";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import RightTopButton from "../../components/RightTopButton/RightTopButton";
 import { useInput } from "../../hooks/useInput";
+import axios from "axios";
 
 function SignupPage() {
     const [username, setUsername, usernameChange] = useInput();
@@ -19,6 +20,20 @@ function SignupPage() {
             name,
             email,
         };
+
+        signupRequest(signupData);
+    };
+
+    const signupRequest = async (signupData) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/auth/signup",
+                signupData
+            );
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
