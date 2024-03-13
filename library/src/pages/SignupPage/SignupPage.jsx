@@ -2,8 +2,15 @@
 import * as s from "./style";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import RightTopButton from "../../components/RightTopButton/RightTopButton";
+import { useInput } from "../../hooks/useInput";
 
 function SignupPage() {
+    const [username, setUsername, usernameChange] = useInput();
+    const [password, setPassword, passwordChange] = useInput();
+    const [checkPassword, setCheckPassword, checkPasswordChange] = useInput();
+    const [name, setName, nameChange] = useInput();
+    const [email, setEmail, emailChange] = useInput();
+    
     return (
         <>
             <div css={s.header}>
