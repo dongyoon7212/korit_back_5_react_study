@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import * as s from "./style";
+import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
+import RightTopButton from "../../components/RightTopButton/RightTopButton";
 
 function SignupPage() {
     return (
         <>
             <div css={s.header}>
                 <h1>회원가입</h1>
-                {/* <button css={s.}>가입하기</button> */}
+                <RightTopButton>가입하기</RightTopButton>
             </div>
             <AuthPageInput
                 type={"text"}
