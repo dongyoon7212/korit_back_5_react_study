@@ -19,7 +19,7 @@ export const input = css`
     cursor: pointer;
 
     &:focus {
-        
+        background-color: #fafafa;
     }
 `;
 

@@ -5,8 +5,10 @@ import RightTopButton from "../../components/RightTopButton/RightTopButton";
 import { useInput } from "../../hooks/useInput";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
+    const navigate = useNavigate();
     const [username, setUsername, usernameChange] = useInput();
     const [password, setPassword, passwordChange] = useInput();
     const [checkPassword, setCheckPassword, checkPasswordChange] = useInput();
@@ -80,8 +82,12 @@ function SignupPage() {
                 "http://localhost:8080/auth/signup",
                 signupData
             );
-            console.log(response);
-            alert("회원가입이 완료되었습니다");
+            if (response.data) {
+                alert("회원가입이 완료되었습니다.");
+                navigate("/auth/signin");
+            }
+            console.log(response.data);
+            //정상적으로 등록이 되면 true를 반환
         } catch (error) {
             // 200 300이 아니면 오류를 axios에서 catch로 넘겨버림
             const errorMap = error.response.data;
