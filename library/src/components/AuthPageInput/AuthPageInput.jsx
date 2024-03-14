@@ -8,6 +8,7 @@ function AuthPageInput({
     placeholder,
     value,
     onChange,
+    onBlur,
     ref,
     message,
 }) {
@@ -20,6 +21,7 @@ function AuthPageInput({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                onBlur={onBlur}
                 ref={ref}
             />
             {!!message && (

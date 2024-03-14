@@ -21,7 +21,48 @@ function SignupPage() {
         email: null,
     });
 
+    const handleCheckPassword = (e) => {
+        if (!!e.target.value) {
+            setMessageGroup((messageGroup) => {
+                return {
+                    ...messageGroup,
+                    checkPassword: {
+                        type: checkPassword === password ? "success" : "error",
+                        text:
+                            checkPassword === password
+                                ? ""
+                                : "비밀번호가 서로 일치하지 않습니다",
+                    },
+                };
+            });
+        } else {
+            setMessageGroup((messageGroup) => {
+                return {
+                    ...messageGroup,
+                    checkPassword: null,
+                };
+            });
+        }
+    };
+
     const handleSignupSubmit = () => {
+        if (messageGroup?.checkPassword?.type === "error") {
+            alert("비밀번호가 서로 일치하지 않습니다.");
+            return;
+        }
+
+        if (!checkPassword) {
+            setMessageGroup((messageGroup) => {
+                return {
+                    ...messageGroup,
+                    checkPassword: {
+                        type: "error",
+                        text: "비밀번호를 입력하세요",
+                    },
+                };
+            });
+            return;
+        }
         const signupData = {
             username,
             password,
@@ -40,6 +81,7 @@ function SignupPage() {
                 signupData
             );
             console.log(response);
+            alert("회원가입이 완료되었습니다");
         } catch (error) {
             // 200 300이 아니면 오류를 axios에서 catch로 넘겨버림
             const errorMap = error.response.data;
@@ -75,6 +117,14 @@ function SignupPage() {
                     },
                 };
             }
+            if (newMessageGroup.password.type === "error") {
+                newMessageGroup = {
+                    ...newMessageGroup,
+                    checkPassword: null,
+                };
+                setPassword(() => "");
+                setCheckPassword(() => "");
+            }
             setMessageGroup(() => newMessageGroup);
         }
     };
@@ -109,6 +159,7 @@ function SignupPage() {
                 placeholder={"비밀번호 확인"}
                 value={checkPassword}
                 onChange={checkPasswordChange}
+                onBlur={handleCheckPassword}
                 message={messageGroup.checkPassword}
             />
             <AuthPageInput
