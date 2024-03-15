@@ -4,16 +4,43 @@ import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import RightTopButton from "../../components/RightTopButton/RightTopButton";
 import { useInput } from "../../hooks/useInput";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function SignupPage() {
     const navigate = useNavigate();
+
     const [username, usernameChange, usernameMessage] = useInput("username");
     const [password, passwordChange, passwordMessage] = useInput("password");
     const [checkPassword, checkPasswordChange] = useInput("checkPassword");
     const [name, nameChange, nameMessage] = useInput("name");
     const [email, emailChange, emailMessage] = useInput("email");
+    const [checkPasswordMessage, setCheckPasswordMessage] = useState(null);
+
+    useEffect(() => {
+        if (!checkPassword || !password) {
+            setCheckPasswordMessage(() => null);
+            return;
+        }
+
+        if (checkPassword === password) {
+            setCheckPasswordMessage(() => {
+                return {
+                    type: "success",
+                    text: "",
+                };
+            });
+        } else {
+            setCheckPasswordMessage(() => {
+                return {
+                    type: "error",
+                    text: "비밀번호가 일치하지 않습니다.",
+                };
+            });
+        }
+    }, [checkPassword, password]);
 
     const handleSignupSubmit = () => {};
+    
     return (
         <>
             <div css={s.header}>
@@ -44,7 +71,7 @@ function SignupPage() {
                 placeholder={"비밀번호 확인"}
                 value={checkPassword}
                 onChange={checkPasswordChange}
-                message={null}
+                message={checkPasswordMessage}
             />
             <AuthPageInput
                 type={"text"}
