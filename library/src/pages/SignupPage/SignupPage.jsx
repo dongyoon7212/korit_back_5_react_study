@@ -69,28 +69,32 @@ function SignupPage() {
             password,
             name,
             email,
-        }).then((response) => {
-            console.log(response);
-            if (response.status === 201) {
-                alert("회원가입이 완료되었습니다.");
-                navigate("/auth/signin");
-            } else if (response.status === 400) {
-                const errorMap = response.data;
-                const errorEntries = Object.entries(errorMap);
-                for (let [k, v] of errorEntries) {
-                    if (k === "username") {
-                        setUsernameMessage(() => {
-                            return {
-                                type: "error",
-                                text: v,
-                            };
-                        });
-                    }
+        })
+            .then((response) => {
+                console.log(response);
+                if (response.status === 201) {
+                    alert("회원가입이 완료되었습니다.");
+                    navigate("/auth/signin");
                 }
-            } else {
-                alert("회원가입 오류");
-            }
-        });
+            })
+            .catch((error) => {
+                if (error.response.status === 400) {
+                    const errorMap = error.response.data;
+                    const errorEntries = Object.entries(errorMap);
+                    for (let [k, v] of errorEntries) {
+                        if (k === "username") {
+                            setUsernameMessage(() => {
+                                return {
+                                    type: "error",
+                                    text: v,
+                                };
+                            });
+                        }
+                    }
+                } else {
+                    alert("회원가입 오류");
+                }
+            });
     };
 
     return (
