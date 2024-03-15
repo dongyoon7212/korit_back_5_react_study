@@ -6,7 +6,7 @@ import { useInput } from "../../hooks/useInput";
 import * as s from "./style";
 import { signinRequest } from "../../apis/api/signin";
 
-function Signin(props) {
+function Signin() {
     const [username, usernameChange] = useInput();
     const [password, passwordChange] = useInput();
 
@@ -16,9 +16,12 @@ function Signin(props) {
             password,
         })
             .then((response) => {
-                console.log(response);
+                const accessToken = response.data;
+                localStorage.setItem("AccessToken", accessToken);
+                window.location.replace("/")
             })
             .catch((error) => {
+                alert(error.response.data);
                 console.log(error);
             });
     };

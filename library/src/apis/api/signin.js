@@ -1,8 +1,6 @@
 import instance from "../utils/instance";
 
-export const signinRequest = (data) => {
-    // try {
-    const response = instance.post("/auth/signin", data);
+export const signinRequest = async (data) => {
+    const response = await instance.post("/auth/signin", data);
     return response;
-    // } catch {}
 };
