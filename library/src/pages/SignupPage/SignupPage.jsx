@@ -39,8 +39,26 @@ function SignupPage() {
         }
     }, [checkPassword, password]);
 
-    const handleSignupSubmit = () => {};
-    
+    const handleSignupSubmit = () => {
+        const checkFlags = [
+            usernameMessage?.type,
+            passwordMessage?.type,
+            checkPasswordMessage?.type,
+            nameMessage?.type,
+            emailMessage?.type,
+        ];
+
+        if (
+            checkFlags.includes("error") ||
+            checkFlags.includes(undefined) ||
+            checkFlags.includes(null)
+        ) {
+            alert("회원가입 정보를 확인해주세요.");
+            return;
+        }
+
+    };
+
     return (
         <>
             <div css={s.header}>
