@@ -5,11 +5,18 @@ import RightTopButton from "../../components/RightTopButton/RightTopButton";
 import { useInput } from "../../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { signupRequest } from "../../apis/api/signup";
 
 function SignupPage() {
     const navigate = useNavigate();
 
-    const [username, usernameChange, usernameMessage] = useInput("username");
+    const [
+        username,
+        usernameChange,
+        usernameMessage,
+        setUsernameValue,
+        setUsernameMessage,
+    ] = useInput("username");
     const [password, passwordChange, passwordMessage] = useInput("password");
     const [checkPassword, checkPasswordChange] = useInput("checkPassword");
     const [name, nameChange, nameMessage] = useInput("name");
@@ -57,6 +64,33 @@ function SignupPage() {
             return;
         }
 
+        signupRequest({
+            username,
+            password,
+            name,
+            email,
+        }).then((response) => {
+            console.log(response);
+            if (response.status === 201) {
+                alert("회원가입이 완료되었습니다.");
+                navigate("/auth/signin");
+            } else if (response.status === 400) {
+                const errorMap = response.data;
+                const errorEntries = Object.entries(errorMap);
+                for (let [k, v] of errorEntries) {
+                    if (k === "username") {
+                        setUsernameMessage(() => {
+                            return {
+                                type: "error",
+                                text: v,
+                            };
+                        });
+                    }
+                }
+            } else {
+                alert("회원가입 오류");
+            }
+        });
     };
 
     return (
