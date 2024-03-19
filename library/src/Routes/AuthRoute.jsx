@@ -22,7 +22,7 @@ import RootHeader from "../components/RootHeader/RootHeader";
 
 function AuthRoute(props) {
     const principalQuery = useQuery(["principalQuery"], getPricipalRequest, {
-        retry: 3,
+        retry: 0,
         refetchOnWindowFocus: false,
         onSuccess: (response) => {
             console.log("onSuccess");

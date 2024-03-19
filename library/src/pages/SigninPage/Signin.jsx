@@ -18,7 +18,7 @@ function Signin() {
             .then((response) => {
                 const accessToken = response.data;
                 localStorage.setItem("AccessToken", accessToken);
-                window.location.replace("/")
+                window.location.replace("/");
             })
             .catch((error) => {
                 alert(error.response.data);
