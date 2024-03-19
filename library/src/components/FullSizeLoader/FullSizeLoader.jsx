@@ -2,10 +2,10 @@
 import { GridLoader } from "react-spinners";
 import * as s from "./style";
 
-function FullSizeLoader(props) {
+function FullSizeLoader({ size }) {
     return (
         <div css={s.layout}>
-            <GridLoader color="#36d7d7" />
+            <GridLoader color="#36d7d7" size={size} />
         </div>
     );
 }

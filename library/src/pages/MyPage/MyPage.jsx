@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 
-function MyPage(props) {
+function MyPage() {
     return (
-        <div>
-            
+        <div css={s.layout}>
+            <div css={s.header}></div>
         </div>
     );
 }

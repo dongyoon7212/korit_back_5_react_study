@@ -5,7 +5,9 @@ import { useQuery } from "react-query";
 import { getPricipalRequest } from "../apis/api/principal";
 import RootSideMenuLeft from "../components/RootSideMenuLeft/RootSideMenuLeft";
 import RootHeader from "../components/RootHeader/RootHeader";
-import { GridLoader } from "react-spinners";
+import FullSizeLoader from "../components/FullSizeLoader/FullSizeLoader";
+import MyPage from "../pages/MyPage/MyPage";
+import PageContainer from "../components/PageContainer/PageContainer";
 
 // useQuery => GET 요청시에 사용
 // 첫번째 매개변수 => 배열 ["key값", dependency]
@@ -21,7 +23,7 @@ import { GridLoader } from "react-spinners";
 
 // react query가 요청을 실패시 여러번 재시도를 해봄
 
-function AuthRoute(props) {
+function AuthRoute() {
     const principalQuery = useQuery(["principalQuery"], getPricipalRequest, {
         retry: 0,
         refetchOnWindowFocus: false,
@@ -39,14 +41,17 @@ function AuthRoute(props) {
         <>
             <RootSideMenuLeft />
             <RootHeader />
-            {principalQuery.isLoading ? (
-                <div></div>
-            ) : (
-                <Routes>
-                    <Route path="/auth/*" element={<AuthPage />} />
-                    <Route path="/" element={<HomePage />} />
-                </Routes>
-            )}
+            <PageContainer>
+                {principalQuery.isLoading ? (
+                    <FullSizeLoader size={20} />
+                ) : (
+                    <Routes>
+                        <Route path="/auth/*" element={<AuthPage />} />
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/account/mypage" element={<MyPage />} />
+                    </Routes>
+                )}
+            </PageContainer>
         </>
     );
 }
