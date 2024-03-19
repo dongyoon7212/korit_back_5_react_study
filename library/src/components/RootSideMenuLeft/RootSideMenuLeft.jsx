@@ -19,7 +19,11 @@ function RootSideMenuLeft() {
                     <HiMenu />
                 </button>
             </div>
-            <div css={s.profile}></div>
+            <div css={s.profile}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div css={s.menuList}>
                 <Link css={s.menuLink}>도서 검색</Link>
             </div>
