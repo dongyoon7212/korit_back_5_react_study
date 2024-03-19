@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { getPricipalRequest } from "../apis/api/principal";
 import RootSideMenuLeft from "../components/RootSideMenuLeft/RootSideMenuLeft";
 import RootHeader from "../components/RootHeader/RootHeader";
+import { GridLoader } from "react-spinners";
 
 // useQuery => GET 요청시에 사용
 // 첫번째 매개변수 => 배열 ["key값", dependency]
@@ -39,7 +40,7 @@ function AuthRoute(props) {
             <RootSideMenuLeft />
             <RootHeader />
             {principalQuery.isLoading ? (
-                <h1>로딩중...</h1>
+                <div></div>
             ) : (
                 <Routes>
                     <Route path="/auth/*" element={<AuthPage />} />

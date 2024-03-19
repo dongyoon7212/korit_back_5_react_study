@@ -20,7 +20,8 @@ function RootHeader() {
         setLogin(() => principalQueryState.status === "success");
     }, [principalQueryState.status]);
 
-    const handleOpenClick = () => {
+    const handleOpenClick = (e) => {
+        e.stopPropagation();
         setShow(() => true);
     };
 

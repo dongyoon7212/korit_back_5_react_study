@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import * as s from "./style";
 import { HiMenu } from "react-icons/hi";
 import { menuState } from "../../atoms/menuAtom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import { RiSettings4Line } from "react-icons/ri";
@@ -14,6 +14,7 @@ function RootSideMenuLeft() {
     const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
     const principalQueryState = queryClient.getQueryState("principalQuery");
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLogin(() => principalQueryState.status === "success");
@@ -23,8 +24,18 @@ function RootSideMenuLeft() {
         setShow(() => false);
     };
 
+    const handleLoginClick = () => {
+        navigate("/auth/signin");
+        setShow(() => false);
+    };
+
+    const handleSignupClick = () => {
+        navigate("/auth/signup");
+        setShow(() => false);
+    };
+
     return (
-        <div css={s.layout(show)}>
+        <div css={s.layout(show)} onClick={(e) => e.stopPropagation()}>
             <div css={s.header}>
                 <button css={s.menuButton} onClick={handleCloseClick}>
                     <HiMenu />
@@ -33,8 +44,8 @@ function RootSideMenuLeft() {
             <div css={s.profile}>
                 {!isLogin ? (
                     <div css={s.authButtons}>
-                        <button>로그인</button>
-                        <button>회원가입</button>
+                        <button onClick={handleLoginClick}>로그인</button>
+                        <button onClick={handleSignupClick}>회원가입</button>
                     </div>
                 ) : (
                     <>
