@@ -34,6 +34,11 @@ function RootSideMenuLeft() {
         setShow(() => false);
     };
 
+    const handleSettingClick = () => {
+        navigate("/account/mypage");
+        setShow(() => false);
+    };
+
     return (
         <div css={s.layout(show)} onClick={(e) => e.stopPropagation()}>
             <div css={s.header}>
@@ -49,7 +54,7 @@ function RootSideMenuLeft() {
                     </div>
                 ) : (
                     <>
-                        <div css={s.settings}>
+                        <div css={s.settings} onClick={handleSettingClick}>
                             <RiSettings4Line />
                         </div>
                         <div css={s.profileBox}>
