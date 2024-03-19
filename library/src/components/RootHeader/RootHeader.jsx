@@ -2,25 +2,23 @@
 import { useRecoilState } from "recoil";
 import * as s from "./style";
 import { HiMenu } from "react-icons/hi";
-import { menuState } from "../../atoms/menuAtom";
 import { Link } from "react-router-dom";
+import { menuState } from "../../atoms/menuAtom";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { useQueryClient } from "react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import instance from "../../apis/utils/instance";
 
 function RootHeader() {
     // eslint-disable-next-line no-unused-vars
     const [show, setShow] = useRecoilState(menuState);
+    const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
-    const principal = queryClient.getQueryData("principalQuery"); // 해당 키값의 데이터를 가져옴
-    const principalState = queryClient.getQueryState("principalQuery");
+    const principalQueryState = queryClient.getQueryState("principalQuery");
 
     useEffect(() => {
-        console.log("useEffect");
-        console.log(principal);
-        console.log(principalState);
-    }, [principalState.status]);
+        setLogin(() => principalQueryState.status === "success");
+    }, [principalQueryState.status]);
 
     const handleOpenClick = () => {
         setShow(() => true);
@@ -41,7 +39,7 @@ function RootHeader() {
             <button css={s.menuButton} onClick={handleOpenClick}>
                 <HiMenu />
             </button>
-            {!principal ? (
+            {!isLogin ? (
                 <Link css={s.account} to={"/auth/signin"}>
                     <FiUser />
                 </Link>
