@@ -13,7 +13,7 @@ export const header = css`
     margin-bottom: 20px;
     border: 1px solid #dbdbdb;
     border-radius: 3px;
-    padding: 10px;
+    padding: 10px 30px;
     width: 100%;
     height: 200px;
     background-color: white;
@@ -44,9 +44,46 @@ export const profileImg = css`
     }
 `;
 
-export const infoBox = css``;
+export const infoBox = css`
+    box-sizing: border-box;
+    margin-left: 30px;
+    padding-top: 30px;
+`;
 
-export const infoText = css``;
+export const infoText = css`
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+`;
+
+export const emailBox = css`
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    & > div {
+        margin: 0;
+    }
+`;
+
+export const infoButton = css`
+    box-sizing: border-box;
+    margin-left: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: white;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #fafafa;
+    }
+
+    &:active {
+        background-color: #eeeeee;
+    }
+`;
 
 export const bottom = css`
     box-sizing: border-box;

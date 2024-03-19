@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 
 export const layout = (show) => css`
+    z-index: 99;
     transition: all 0.5s ease-in-out;
     opacity: ${show ? 1 : 0};
     position: absolute;
