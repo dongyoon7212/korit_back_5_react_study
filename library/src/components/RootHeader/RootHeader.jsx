@@ -25,16 +25,11 @@ function RootHeader() {
         setShow(() => true);
     };
 
-    const handleRefetch = () => {
-        queryClient.refetchQueries("principalQuery");
-    };
-
     return (
         <div css={s.header}>
             <button css={s.menuButton} onClick={handleOpenClick}>
                 <HiMenu />
             </button>
-            <button onClick={handleRefetch}>principal 다시 로드</button>
             {!principal ? (
                 <Link css={s.account} to={"/auth/signin"}>
                     <FiUser />
