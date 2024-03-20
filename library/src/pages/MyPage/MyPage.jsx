@@ -13,6 +13,13 @@ function MyPage() {
         mutationKey: "sendAuthMailMutation",
         mutationFn: sendAuthMailRequest,
         retry: 0,
+        onSuccess: (response) => {
+            if (response.data) {
+                alert("인증 메일을 확인해주세요.");
+            } else {
+                alert("인증 메일 전송을 실패했습니다.");
+            }
+        },
     });
 
     const handleSendAuthMailClick = () => {
