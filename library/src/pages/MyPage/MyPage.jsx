@@ -60,17 +60,16 @@ function MyPage() {
                                         인증하기
                                     </button>
                                 ) : (
-                                    <>
-                                        <FaCheckCircle
-                                            style={{ paddingLeft: "5px" }}
-                                            color="rgb(99,166,249)"
-                                        />
-                                    </>
+                                    <div css={s.emailCheck}>
+                                        <FaCheckCircle />
+                                    </div>
                                 )}
                             </div>
-                            <div>
-                                <button>정보 수정</button>
-                                <button>비밀번호 수정</button>
+                            <div css={s.infoButtons}>
+                                <button css={s.infoButton}>정보 수정</button>
+                                <button css={s.infoButton}>
+                                    비밀번호 수정
+                                </button>
                             </div>
                         </div>
                     </div>
