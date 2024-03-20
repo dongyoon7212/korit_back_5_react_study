@@ -3,6 +3,7 @@ import * as s from "./style";
 import img from "../../assets/bio-photo.jpg";
 import { useMutation, useQueryClient } from "react-query";
 import { sendAuthMailRequest } from "../../apis/api/sendAuthMail";
+import { FaCheckCircle } from "react-icons/fa";
 import FullSizeLoader from "../../components/FullSizeLoader/FullSizeLoader";
 
 function MyPage() {
@@ -59,7 +60,12 @@ function MyPage() {
                                         인증하기
                                     </button>
                                 ) : (
-                                    <>체크</>
+                                    <>
+                                        <FaCheckCircle
+                                            style={{ paddingLeft: "5px" }}
+                                            color="rgb(99,166,249)"
+                                        />
+                                    </>
                                 )}
                             </div>
                             <div>
