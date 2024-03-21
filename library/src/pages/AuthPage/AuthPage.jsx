@@ -10,7 +10,8 @@ function AuthPage() {
             <Routes>
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<SignupPage />} />
-                <Route path="/signup/oauth" />
+                <Route path="/oauth2/merge" />
+                <Route path="/oauth2/signup" />
             </Routes>
         </div>
     );

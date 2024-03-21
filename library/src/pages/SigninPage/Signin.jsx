@@ -50,9 +50,9 @@ function Signin() {
             />
             <Link to={"/auth/signup"}>회원가입</Link>
             <div>
-                <Link>카카오로그인</Link>
-                <Link>구글로그인</Link>
-                <Link>네이버로그인</Link>
+                <a>카카오로그인</a>
+                <a href="http:localhost:8080/oauth2/authorization/google">구글로그인</a>
+                <a>네이버로그인</a>
             </div>
         </>
     );
