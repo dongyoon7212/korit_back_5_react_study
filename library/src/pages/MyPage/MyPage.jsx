@@ -6,9 +6,11 @@ import { sendAuthMailRequest } from "../../apis/api/sendAuthMail";
 import { FaCheckCircle } from "react-icons/fa";
 import FullSizeLoader from "../../components/FullSizeLoader/FullSizeLoader";
 import { useAuthCheck } from "../../hooks/useAuthCheck";
+import { useNavigate } from "react-router-dom";
 
 function MyPage() {
     useAuthCheck();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
 
@@ -69,7 +71,12 @@ function MyPage() {
                             </div>
                             <div css={s.infoButtons}>
                                 <button css={s.infoButton}>정보 수정</button>
-                                <button css={s.infoButton}>
+                                <button
+                                    css={s.infoButton}
+                                    onClick={() =>
+                                        navigate("/account/edit/password")
+                                    }
+                                >
                                     비밀번호 수정
                                 </button>
                             </div>
