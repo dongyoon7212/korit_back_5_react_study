@@ -22,7 +22,9 @@ function PasswordEditPage(props) {
         mutationKey: "editPasswordMutation",
         mutationFn: editPasswordRequest,
         onSuccess: (response) => {
-            console.log(response);
+            alert("비밀번호가 변경되었습니다.\n다시 로그인 해주세요.");
+            localStorage.removeItem("AccessToken");
+            window.location.replace("/auth/signin");
         },
         onError: (error) => {
             if (error.response.status === 400) {
