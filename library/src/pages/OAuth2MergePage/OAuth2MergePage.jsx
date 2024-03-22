@@ -1,10 +1,38 @@
-import React from 'react';
+/** @jsxImportSource @emotion/react */
+import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
+import RightTopButton from "../../components/RightTopButton/RightTopButton";
+import { useInput } from "../../hooks/useInput";
+import * as s from "./style";
 
-function OAuth2MergePage(props) {
+function OAuth2MergePage() {
+    const [username, usernameChange] = useInput();
+    const [password, passwordChange] = useInput();
+
+    const handleSigninSubmit = () => {};
+
     return (
-        <div>
-            
-        </div>
+        <>
+            <div css={s.header}>
+                <h1>계정 통합 로그인</h1>
+                <RightTopButton onClick={handleSigninSubmit}>
+                    로그인하기
+                </RightTopButton>
+            </div>
+            <AuthPageInput
+                type={"text"}
+                name={"username"}
+                placeholder={"사용자이름"}
+                value={username}
+                onChange={usernameChange}
+            />
+            <AuthPageInput
+                type={"password"}
+                name={"password"}
+                placeholder={"비밀번호"}
+                value={password}
+                onChange={passwordChange}
+            />
+        </>
     );
 }
 
