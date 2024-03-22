@@ -5,8 +5,10 @@ import { useMutation, useQueryClient } from "react-query";
 import { sendAuthMailRequest } from "../../apis/api/sendAuthMail";
 import { FaCheckCircle } from "react-icons/fa";
 import FullSizeLoader from "../../components/FullSizeLoader/FullSizeLoader";
+import { useAuthCheck } from "../../hooks/useAuthCheck";
 
 function MyPage() {
+    useAuthCheck();
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
 
@@ -41,16 +43,16 @@ function MyPage() {
                         </div>
                         <div css={s.infoBox}>
                             <div css={s.infoText}>
-                                사용자 이름 : {principalData.data.username}
+                                사용자 이름 : {principalData?.data.username}
                             </div>
                             <div css={s.infoText}>
-                                이름 : {principalData.data.name}
+                                이름 : {principalData?.data.name}
                             </div>
                             <div css={s.emailBox}>
                                 <div css={s.infoText}>
-                                    이메일 : {principalData.data.email}
+                                    이메일 : {principalData?.data.email}
                                 </div>
-                                {principalData.data.authorities.filter(
+                                {principalData?.data.authorities.filter(
                                     (auth) => auth.authority === "ROLE_USER"
                                 ).length === 0 ? (
                                     <button

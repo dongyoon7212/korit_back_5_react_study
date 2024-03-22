@@ -2,7 +2,7 @@
 import { useRecoilState } from "recoil";
 import * as s from "./style";
 import { HiMenu } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { menuState } from "../../atoms/menuAtom";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { useQueryClient } from "react-query";
@@ -15,7 +15,6 @@ function RootHeader() {
     const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
     const principalQueryState = queryClient.getQueryState("principalQuery");
-    const navigate = useNavigate();
 
     useEffect(() => {
         setLogin(() => principalQueryState.status === "success");
@@ -34,7 +33,8 @@ function RootHeader() {
             return config;
         });
         queryClient.refetchQueries("principalQuery");
-        navigate("/");
+        alert("로그아웃 되었습니다.");
+        window.location.replace("/auth/signin");
     };
 
     return (
