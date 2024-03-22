@@ -2,25 +2,58 @@ import { useMutation } from "react-query";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import { useAuthCheck } from "../../hooks/useAuthCheck";
 import { useInput } from "../../hooks/useInput";
+import { editPasswordRequest } from "../../apis/api/editPassword";
 
 function PasswordEditPage(props) {
     useAuthCheck();
-    const [oldPassword, handleOldPassword, oldMessage] =
+    const [oldPassword, handleOldPassword, oldMessage, setOld, setOldMessage] =
         useInput("oldPassword");
-    const [newPassword, handleNewPassword, newMessage] =
+    const [newPassword, handleNewPassword, newMessage, setNew, setNewMessage] =
         useInput("newPassword");
-    const [newPasswordCheck, handleNewPasswordCheck, newCheckMessage] =
-        useInput("newPasswordCheck");
+    const [
+        newPasswordCheck,
+        handleNewPasswordCheck,
+        newCheckMessage,
+        setNewCheck,
+        setNewCheckMessage,
+    ] = useInput("newPasswordCheck");
 
     const editPasswordMutation = useMutation({
         mutationKey: "editPasswordMutation",
-        mutationFn: null,
-        onSuccess: response => {
-
+        mutationFn: editPasswordRequest,
+        onSuccess: (response) => {
+            console.log(response);
         },
-        onError: error => {
-            
-        }
+        onError: (error) => {
+            if (error.response.status === 400) {
+                const errorMap = error.response.data;
+                const errorEntries = Object.entries(errorMap);
+                setOldMessage(null);
+                setNewMessage(null);
+                setNewCheckMessage(null);
+                for (let [k, v] of errorEntries) {
+                    const message = {
+                        type: "error",
+                        text: v,
+                    };
+                    if (k === "oldPassword") {
+                        setOldMessage(() => {
+                            return setOldMessage(() => message);
+                        });
+                    }
+                    if (k === "newPassword") {
+                        setOldMessage(() => {
+                            return setNewMessage(() => message);
+                        });
+                    }
+                    if (k === "newPasswordCheck") {
+                        setOldMessage(() => {
+                            return setNewCheckMessage(() => message);
+                        });
+                    }
+                }
+            }
+        },
     });
 
     const handleEditSubmitClick = () => {
