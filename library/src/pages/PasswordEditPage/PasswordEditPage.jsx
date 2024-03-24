@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import * as s from "./style";
 import { useMutation } from "react-query";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import { useAuthCheck } from "../../hooks/useAuthCheck";
@@ -67,30 +69,34 @@ function PasswordEditPage(props) {
     };
 
     return (
-        <div>
+        <div css={s.layout}>
             <h1>비밀번호 변경</h1>
-            <AuthPageInput
-                type={"password"}
-                value={oldPassword}
-                onChange={handleOldPassword}
-                placeholder={"현재 비밀번호를 입력하세요."}
-                message={oldMessage}
-            />
-            <AuthPageInput
-                type={"password"}
-                value={newPassword}
-                onChange={handleNewPassword}
-                placeholder={"새로운 비밀번호를 입력하세요."}
-                message={newMessage}
-            />
-            <AuthPageInput
-                type={"password"}
-                value={newPasswordCheck}
-                onChange={handleNewPasswordCheck}
-                placeholder={"새로운 비밀번호를 확인하세요."}
-                message={newCheckMessage}
-            />
-            <button onClick={handleEditSubmitClick}>비밀번호 변경</button>
+            <div css={s.inputBox}>
+                <AuthPageInput
+                    type={"password"}
+                    value={oldPassword}
+                    onChange={handleOldPassword}
+                    placeholder={"현재 비밀번호를 입력하세요."}
+                    message={oldMessage}
+                />
+                <AuthPageInput
+                    type={"password"}
+                    value={newPassword}
+                    onChange={handleNewPassword}
+                    placeholder={"새로운 비밀번호를 입력하세요."}
+                    message={newMessage}
+                />
+                <AuthPageInput
+                    type={"password"}
+                    value={newPasswordCheck}
+                    onChange={handleNewPasswordCheck}
+                    placeholder={"새로운 비밀번호를 확인하세요."}
+                    message={newCheckMessage}
+                />
+                <button css={s.button} onClick={handleEditSubmitClick}>
+                    비밀번호 변경
+                </button>
+            </div>
         </div>
     );
 }

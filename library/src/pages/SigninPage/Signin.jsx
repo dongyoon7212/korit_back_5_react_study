@@ -48,8 +48,8 @@ function Signin() {
                 value={password}
                 onChange={passwordChange}
             />
-            <Link to={"/auth/signup"}>회원가입</Link>
-            <div>
+            <Link css={s.signupText} to={"/auth/signup"}>회원가입</Link>
+            <div css={s.oauthBox}>
                 <a href="http://localhost:8080/oauth2/authorization/kakao">
                     카카오로그인
                 </a>
