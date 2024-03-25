@@ -32,7 +32,16 @@ function BookManagement(props) {
     };
 
     const submit = () => {
-        // 저장 요청
+        console.log([
+            bookId.value,
+            isbn.value,
+            bookTypeName.value,
+            categoryName.value,
+            bookName.value,
+            authorName.value,
+            publisherName.value,
+            imgUrl.value,
+        ]);
     };
 
     const bookId = useBookRegisterInput(nextInput, inputRefs[1]);
@@ -109,7 +118,7 @@ function BookManagement(props) {
                             <td>
                                 <BookRegisterInput
                                     value={bookId.value}
-                                    bookRef={inputRefs[0]}
+                                    bookref={inputRefs[0]}
                                     onChange={bookId.handleOnChange}
                                     onKeyDown={bookId.handleOnKeyDown}
                                 />
@@ -118,7 +127,7 @@ function BookManagement(props) {
                             <td>
                                 <BookRegisterInput
                                     value={isbn.value}
-                                    bookRef={inputRefs[1]}
+                                    bookref={inputRefs[1]}
                                     onChange={isbn.handleOnChange}
                                     onKeyDown={isbn.handleOnKeyDown}
                                 />
@@ -159,7 +168,7 @@ function BookManagement(props) {
                             <td colSpan={3}>
                                 <BookRegisterInput
                                     value={bookName.value}
-                                    bookRef={inputRefs[4]}
+                                    bookref={inputRefs[4]}
                                     onChange={bookName.handleOnChange}
                                     onKeyDown={bookName.handleOnKeyDown}
                                 />
@@ -170,7 +179,7 @@ function BookManagement(props) {
                             <td>
                                 <BookRegisterInput
                                     value={authorName.value}
-                                    bookRef={inputRefs[5]}
+                                    bookref={inputRefs[5]}
                                     onChange={authorName.handleOnChange}
                                     onKeyDown={authorName.handleOnKeyDown}
                                 />
@@ -179,7 +188,7 @@ function BookManagement(props) {
                             <td>
                                 <BookRegisterInput
                                     value={publisherName.value}
-                                    bookRef={inputRefs[6]}
+                                    bookref={inputRefs[6]}
                                     onChange={publisherName.handleOnChange}
                                     onKeyDown={publisherName.handleOnKeyDown}
                                 />
@@ -192,7 +201,7 @@ function BookManagement(props) {
                                     <span css={s.imgUrlBox}>
                                         <BookRegisterInput
                                             value={imgUrl.value}
-                                            bookRef={inputRefs[7]}
+                                            bookref={inputRefs[7]}
                                             onChange={imgUrl.handleOnChange}
                                             onKeyDown={imgUrl.handleOnKeyDown}
                                         />
