@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Select from "react-select";
+import { FaRegFolderOpen } from "react-icons/fa";
+
 import BookRegisterInput from "../../../components/BookRegisterInput/BookRegisterInput";
 import * as s from "./style";
 import { useQuery } from "react-query";
@@ -7,11 +9,38 @@ import {
     getAllBookTypeRequest,
     getAllCategoryRequest,
 } from "../../../apis/api/options";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useBookRegisterInput } from "../../../hooks/useBookRegisterInput";
 
 function BookManagement(props) {
     const [bookTypeOptions, setBookTypeOptions] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
+    const fileRef = useRef();
+    const inputRefs = [
+        useRef(), // 0 bookId
+        useRef(), // 1 isbn
+        useRef(), // 2 도서형식
+        useRef(), // 3 카테고리
+        useRef(), // 4 도서명
+        useRef(), // 5 저자명
+        useRef(), // 6 출판사
+        useRef(), // 7 URL
+    ];
+
+    const nextInput = (ref) => {
+        ref.current.focus();
+    };
+
+    const submit = () => {
+        // 저장 요청
+    };
+
+    const bookId = useBookRegisterInput(nextInput, inputRefs[1]);
+    const isbn = useBookRegisterInput(nextInput, inputRefs[2]);
+    const bookName = useBookRegisterInput(nextInput, inputRefs[5]);
+    const authorName = useBookRegisterInput(nextInput, inputRefs[6]);
+    const publisherName = useBookRegisterInput(nextInput, inputRefs[7]);
+    const imgUrl = useBookRegisterInput(submit);
 
     const bookTypeQuery = useQuery(["bookTypeQuery"], getAllBookTypeRequest, {
         onSuccess: (response) => {
@@ -49,6 +78,12 @@ function BookManagement(props) {
         refetchOnWindowFocus: false,
     });
 
+    const handleFileChange = (e) => {
+        const fileReader = new FileReader();
+
+        fileReader.readAsDataURL();
+    };
+
     const selectStyle = {
         control: (baseStyle, state) => ({
             ...baseStyle,
@@ -70,11 +105,21 @@ function BookManagement(props) {
                         <tr>
                             <th css={s.registerTh}>도서코드</th>
                             <td>
-                                <BookRegisterInput />
+                                <BookRegisterInput
+                                    value={bookId.value}
+                                    ref={inputRefs[0]}
+                                    onChange={bookId.handleOnChange}
+                                    onKeyUp={bookId.handleOnKeyUp}
+                                />
                             </td>
                             <th css={s.registerTh}>ISBN</th>
                             <td>
-                                <BookRegisterInput />
+                                <BookRegisterInput
+                                    value={isbn.value}
+                                    ref={inputRefs[1]}
+                                    onChange={isbn.handleOnChange}
+                                    onKeyUp={isbn.handleOnKeyUp}
+                                />
                             </td>
                             <td rowSpan={6} css={s.preview}>
                                 <div css={s.imageBox}>
@@ -104,22 +149,60 @@ function BookManagement(props) {
                         <tr>
                             <th css={s.registerTh}>도서명</th>
                             <td colSpan={3}>
-                                <BookRegisterInput />
+                                <BookRegisterInput
+                                    value={bookName.value}
+                                    ref={inputRefs[4]}
+                                    onChange={bookName.handleOnChange}
+                                    onKeyUp={bookName.handleOnKeyUp}
+                                />
                             </td>
                         </tr>
                         <tr>
                             <th css={s.registerTh}>저자명</th>
                             <td>
-                                <BookRegisterInput />
+                                <BookRegisterInput
+                                    value={authorName.value}
+                                    ref={inputRefs[5]}
+                                    onChange={authorName.handleOnChange}
+                                    onKeyUp={authorName.handleOnKeyUp}
+                                />
                             </td>
                             <th css={s.registerTh}>출판사</th>
                             <td>
-                                <BookRegisterInput />
+                                <BookRegisterInput
+                                    value={publisherName.value}
+                                    ref={inputRefs[6]}
+                                    onChange={publisherName.handleOnChange}
+                                    onKeyUp={publisherName.handleOnKeyUp}
+                                />
                             </td>
                         </tr>
                         <tr>
                             <th css={s.registerTh}>표지URL</th>
-                            <td colSpan={3}> </td>
+                            <td colSpan={3}>
+                                <div css={s.imgUrl}>
+                                    <span css={s.imgUrlBox}>
+                                        <BookRegisterInput
+                                            value={imgUrl.value}
+                                            ref={inputRefs[7]}
+                                            onChange={imgUrl.handleOnChange}
+                                            onKeyUp={imgUrl.handleOnKeyUp}
+                                        />
+                                    </span>
+                                    <input
+                                        type="file"
+                                        style={{ display: "none" }}
+                                        onChange={handleFileChange}
+                                        ref={fileRef}
+                                    />
+                                    <button
+                                        css={s.imgAddButton}
+                                        onClick={() => fileRef.current.click()}
+                                    >
+                                        <FaRegFolderOpen />
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

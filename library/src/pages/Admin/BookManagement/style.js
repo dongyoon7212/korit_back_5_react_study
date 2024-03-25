@@ -65,3 +65,27 @@ export const imageBox = css`
         height: 150px;
     }
 `;
+
+export const imgUrl = css`
+    display: flex;
+    align-items: flex-end;
+`;
+
+export const imgUrlBox = css`
+    display: inline-block;
+    width: 95%;
+    line-height: 10px;
+`;
+
+export const imgAddButton = css`
+    display: flex;
+    align-items: flex-end;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    & > * {
+        font-size: 20px;
+    }
+`;
