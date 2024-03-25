@@ -4,7 +4,7 @@ import { FaRegFolderOpen } from "react-icons/fa";
 import RightTopButton from "../../../components/RightTopButton/RightTopButton";
 import BookRegisterInput from "../../../components/BookRegisterInput/BookRegisterInput";
 import * as s from "./style";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import {
     getAllBookTypeRequest,
     getAllCategoryRequest,
@@ -14,6 +14,7 @@ import { useBookRegisterInput } from "../../../hooks/useBookRegisterInput";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../apis/firebase/config/firebaseConfig";
 import { v4 as uuid } from "uuid";
+import { registerBookRequest } from "../../../apis/api/bookApi";
 
 function BookManagement(props) {
     const [bookTypeOptions, setBookTypeOptions] = useState([]);
@@ -29,33 +30,6 @@ function BookManagement(props) {
         useRef(), // 6 출판사
         useRef(), // 7 URL
     ];
-
-    const nextInput = (ref) => {
-        ref.current.focus();
-    };
-
-    const submit = () => {
-        console.log([
-            bookId.value,
-            isbn.value,
-            bookTypeId.value,
-            categoryId.value,
-            bookName.value,
-            authorName.value,
-            publisherName.value,
-            imgUrl.value,
-        ]);
-    };
-
-    const bookId = useBookRegisterInput(nextInput, inputRefs[1]);
-    const isbn = useBookRegisterInput(nextInput, inputRefs[2]);
-    const bookTypeId = useBookRegisterInput(nextInput, inputRefs[3]);
-    const categoryId = useBookRegisterInput(nextInput, inputRefs[4]);
-    const bookName = useBookRegisterInput(nextInput, inputRefs[5]);
-    const authorName = useBookRegisterInput(nextInput, inputRefs[6]);
-    const publisherName = useBookRegisterInput(nextInput, inputRefs[7]);
-    const imgUrl = useBookRegisterInput(submit);
-
     const bookTypeQuery = useQuery(["bookTypeQuery"], getAllBookTypeRequest, {
         onSuccess: (response) => {
             setBookTypeOptions(() =>
@@ -91,6 +65,38 @@ function BookManagement(props) {
         retry: 0,
         refetchOnWindowFocus: false,
     });
+
+    const registerBookMutation = useMutation({
+        mutationKey: "registerBookMutation",
+        mutationFn: registerBookRequest,
+        onSuccess: (response) => {},
+        onError: (error) => {},
+    });
+
+    const nextInput = (ref) => {
+        ref.current.focus();
+    };
+
+    const submit = () => {
+        registerBookMutation.mutate({
+            isbn: isbn.value,
+            bookTypeId: bookTypeId.value,
+            categoryId: categoryId.value,
+            bookName: bookName.value,
+            authorName: authorName.value,
+            publisherName: publisherName.value,
+            coverImgUrl: imgUrl.value,
+        });
+    };
+
+    const bookId = useBookRegisterInput(nextInput, inputRefs[1]);
+    const isbn = useBookRegisterInput(nextInput, inputRefs[2]);
+    const bookTypeId = useBookRegisterInput(nextInput, inputRefs[3]);
+    const categoryId = useBookRegisterInput(nextInput, inputRefs[4]);
+    const bookName = useBookRegisterInput(nextInput, inputRefs[5]);
+    const authorName = useBookRegisterInput(nextInput, inputRefs[6]);
+    const publisherName = useBookRegisterInput(nextInput, inputRefs[7]);
+    const imgUrl = useBookRegisterInput(submit);
 
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
