@@ -37,6 +37,8 @@ function BookManagement(props) {
 
     const bookId = useBookRegisterInput(nextInput, inputRefs[1]);
     const isbn = useBookRegisterInput(nextInput, inputRefs[2]);
+    const bookTypeName = useBookRegisterInput(nextInput, inputRefs[3]);
+    const categoryName = useBookRegisterInput(nextInput, inputRefs[4]);
     const bookName = useBookRegisterInput(nextInput, inputRefs[5]);
     const authorName = useBookRegisterInput(nextInput, inputRefs[6]);
     const publisherName = useBookRegisterInput(nextInput, inputRefs[7]);
@@ -107,18 +109,18 @@ function BookManagement(props) {
                             <td>
                                 <BookRegisterInput
                                     value={bookId.value}
-                                    ref={inputRefs[0]}
+                                    bookRef={inputRefs[0]}
                                     onChange={bookId.handleOnChange}
-                                    onKeyUp={bookId.handleOnKeyUp}
+                                    onKeyDown={bookId.handleOnKeyDown}
                                 />
                             </td>
                             <th css={s.registerTh}>ISBN</th>
                             <td>
                                 <BookRegisterInput
                                     value={isbn.value}
-                                    ref={inputRefs[1]}
+                                    bookRef={inputRefs[1]}
                                     onChange={isbn.handleOnChange}
-                                    onKeyUp={isbn.handleOnKeyUp}
+                                    onKeyDown={isbn.handleOnKeyDown}
                                 />
                             </td>
                             <td rowSpan={6} css={s.preview}>
@@ -136,6 +138,9 @@ function BookManagement(props) {
                                 <Select
                                     styles={selectStyle}
                                     options={bookTypeOptions}
+                                    onKeyDown={bookTypeName.handleOnKeyDown}
+                                    onChange={bookTypeName.handleOnChange}
+                                    ref={inputRefs[2]}
                                 />
                             </td>
                             <th css={s.registerTh}>카테고리</th>
@@ -143,6 +148,9 @@ function BookManagement(props) {
                                 <Select
                                     styles={selectStyle}
                                     options={categoryOptions}
+                                    onKeyDown={categoryName.handleOnKeyDown}
+                                    onChange={categoryName.handleOnChange}
+                                    ref={inputRefs[3]}
                                 />
                             </td>
                         </tr>
@@ -151,9 +159,9 @@ function BookManagement(props) {
                             <td colSpan={3}>
                                 <BookRegisterInput
                                     value={bookName.value}
-                                    ref={inputRefs[4]}
+                                    bookRef={inputRefs[4]}
                                     onChange={bookName.handleOnChange}
-                                    onKeyUp={bookName.handleOnKeyUp}
+                                    onKeyDown={bookName.handleOnKeyDown}
                                 />
                             </td>
                         </tr>
@@ -162,18 +170,18 @@ function BookManagement(props) {
                             <td>
                                 <BookRegisterInput
                                     value={authorName.value}
-                                    ref={inputRefs[5]}
+                                    bookRef={inputRefs[5]}
                                     onChange={authorName.handleOnChange}
-                                    onKeyUp={authorName.handleOnKeyUp}
+                                    onKeyDown={authorName.handleOnKeyDown}
                                 />
                             </td>
                             <th css={s.registerTh}>출판사</th>
                             <td>
                                 <BookRegisterInput
                                     value={publisherName.value}
-                                    ref={inputRefs[6]}
+                                    bookRef={inputRefs[6]}
                                     onChange={publisherName.handleOnChange}
-                                    onKeyUp={publisherName.handleOnKeyUp}
+                                    onKeyDown={publisherName.handleOnKeyDown}
                                 />
                             </td>
                         </tr>
@@ -184,9 +192,9 @@ function BookManagement(props) {
                                     <span css={s.imgUrlBox}>
                                         <BookRegisterInput
                                             value={imgUrl.value}
-                                            ref={inputRefs[7]}
+                                            bookRef={inputRefs[7]}
                                             onChange={imgUrl.handleOnChange}
-                                            onKeyUp={imgUrl.handleOnKeyUp}
+                                            onKeyDown={imgUrl.handleOnKeyDown}
                                         />
                                     </span>
                                     <input
