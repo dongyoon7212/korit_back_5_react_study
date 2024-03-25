@@ -35,8 +35,8 @@ function BookManagement(props) {
         console.log([
             bookId.value,
             isbn.value,
-            bookTypeName.value,
-            categoryName.value,
+            bookTypeId.value,
+            categoryId.value,
             bookName.value,
             authorName.value,
             publisherName.value,
@@ -46,8 +46,8 @@ function BookManagement(props) {
 
     const bookId = useBookRegisterInput(nextInput, inputRefs[1]);
     const isbn = useBookRegisterInput(nextInput, inputRefs[2]);
-    const bookTypeName = useBookRegisterInput(nextInput, inputRefs[3]);
-    const categoryName = useBookRegisterInput(nextInput, inputRefs[4]);
+    const bookTypeId = useBookRegisterInput(nextInput, inputRefs[3]);
+    const categoryId = useBookRegisterInput(nextInput, inputRefs[4]);
     const bookName = useBookRegisterInput(nextInput, inputRefs[5]);
     const authorName = useBookRegisterInput(nextInput, inputRefs[6]);
     const publisherName = useBookRegisterInput(nextInput, inputRefs[7]);
@@ -90,9 +90,10 @@ function BookManagement(props) {
     });
 
     const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
         const fileReader = new FileReader();
 
-        fileReader.readAsDataURL();
+        fileReader.readAsDataURL(files);
     };
 
     const selectStyle = {
@@ -147,8 +148,8 @@ function BookManagement(props) {
                                 <Select
                                     styles={selectStyle}
                                     options={bookTypeOptions}
-                                    onKeyDown={bookTypeName.handleOnKeyDown}
-                                    onChange={bookTypeName.handleOnChange}
+                                    onKeyDown={bookTypeId.handleOnKeyDown}
+                                    onChange={bookTypeId.handleOnChange}
                                     ref={inputRefs[2]}
                                 />
                             </td>
@@ -157,8 +158,8 @@ function BookManagement(props) {
                                 <Select
                                     styles={selectStyle}
                                     options={categoryOptions}
-                                    onKeyDown={categoryName.handleOnKeyDown}
-                                    onChange={categoryName.handleOnChange}
+                                    onKeyDown={categoryId.handleOnKeyDown}
+                                    onChange={categoryId.handleOnChange}
                                     ref={inputRefs[3]}
                                 />
                             </td>
