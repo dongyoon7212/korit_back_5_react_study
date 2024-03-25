@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import Select from "react-select";
 import BookRegisterInput from "../../../components/BookRegisterInput/BookRegisterInput";
 import * as s from "./style";
 
@@ -31,9 +32,35 @@ function BookManagement(props) {
                         </tr>
                         <tr>
                             <th css={s.registerTh}>도서형식</th>
-                            <td></td>
+                            <td>
+                                <Select
+                                    styles={{
+                                        control: (baseStyle, state) => ({
+                                            ...baseStyle,
+                                            borderRadius: "0px",
+                                            border: "none",
+                                            outline: "none",
+                                            boxShadow: "none",
+                                        }),
+                                    }}
+                                    options={[{ value: "test", label: "test" }]}
+                                />
+                            </td>
                             <th css={s.registerTh}>카테고리</th>
-                            <td></td>
+                            <td>
+                                <Select
+                                    styles={{
+                                        control: (baseStyle, state) => ({
+                                            ...baseStyle,
+                                            borderRadius: "0px",
+                                            border: "none",
+                                            outline: "none",
+                                            boxShadow: "none",
+                                        }),
+                                    }}
+                                    options={[{ value: "test", label: "test" }]}
+                                />
+                            </td>
                         </tr>
                         <tr>
                             <th css={s.registerTh}>도서명</th>
