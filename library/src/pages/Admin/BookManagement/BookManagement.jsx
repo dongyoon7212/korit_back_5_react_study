@@ -2,8 +2,63 @@
 import Select from "react-select";
 import BookRegisterInput from "../../../components/BookRegisterInput/BookRegisterInput";
 import * as s from "./style";
+import { useQuery } from "react-query";
+import {
+    getAllBookTypeRequest,
+    getAllCategoryRequest,
+} from "../../../apis/api/options";
+import { useState } from "react";
 
 function BookManagement(props) {
+    const [bookTypeOptions, setBookTypeOptions] = useState([]);
+    const [categoryOptions, setCategoryOptions] = useState([]);
+
+    const bookTypeQuery = useQuery(["bookTypeQuery"], getAllBookTypeRequest, {
+        onSuccess: (response) => {
+            setBookTypeOptions(() =>
+                response.data.map((bookType) => {
+                    return {
+                        value: bookType.bookTypeId,
+                        label: bookType.bookTypeName,
+                    };
+                })
+            );
+        },
+        onError: (error) => {
+            console.log(error);
+        },
+        retry: 0,
+        refetchOnWindowFocus: false,
+    });
+
+    const categoryQuery = useQuery(["categoryQuery"], getAllCategoryRequest, {
+        onSuccess: (response) => {
+            setCategoryOptions(() =>
+                response.data.map((category) => {
+                    return {
+                        value: category.categoryId,
+                        label: category.categoryName,
+                    };
+                })
+            );
+        },
+        onError: (error) => {
+            console.log(error);
+        },
+        retry: 0,
+        refetchOnWindowFocus: false,
+    });
+
+    const selectStyle = {
+        control: (baseStyle, state) => ({
+            ...baseStyle,
+            borderRadius: "0px",
+            border: "none",
+            outline: "none",
+            boxShadow: "none",
+        }),
+    };
+
     return (
         <div css={s.layout}>
             <div css={s.header}>
@@ -34,31 +89,15 @@ function BookManagement(props) {
                             <th css={s.registerTh}>도서형식</th>
                             <td>
                                 <Select
-                                    styles={{
-                                        control: (baseStyle, state) => ({
-                                            ...baseStyle,
-                                            borderRadius: "0px",
-                                            border: "none",
-                                            outline: "none",
-                                            boxShadow: "none",
-                                        }),
-                                    }}
-                                    options={[{ value: "test", label: "test" }]}
+                                    styles={selectStyle}
+                                    options={bookTypeOptions}
                                 />
                             </td>
                             <th css={s.registerTh}>카테고리</th>
                             <td>
                                 <Select
-                                    styles={{
-                                        control: (baseStyle, state) => ({
-                                            ...baseStyle,
-                                            borderRadius: "0px",
-                                            border: "none",
-                                            outline: "none",
-                                            boxShadow: "none",
-                                        }),
-                                    }}
-                                    options={[{ value: "test", label: "test" }]}
+                                    styles={selectStyle}
+                                    options={categoryOptions}
                                 />
                             </td>
                         </tr>
