@@ -7,31 +7,36 @@ import { useQuery } from "react-query";
 import { searchBooksRequest } from "../../apis/api/bookApi";
 
 function AdminBookSearch({
-    searchBooksRefresh,
+    searchRefresh,
+    setSearchRefresh,
     selectStyle,
     bookTypeOptions,
     categoryOptions,
 }) {
     const searchBooksQuery = useQuery(
         ["searchBooksQuery"],
-        async () => await searchBooksRequest(),
+        async () =>
+            await searchBooksRequest({
+                bookTypeId: 0,
+                categoryId: 0,
+                searchTypeId: 0,
+                searchText: "",
+            }),
         {
             refetchOnWindowFocus: false,
-            enabled: searchBooksRefresh,
+            enabled: searchRefresh,
             onSuccess: (response) => {
                 console.log(response);
-                
+                setSearchRefresh(() => false);
             },
-            onError: (error) => {},
+            onError: (error) => {
+                setSearchRefresh(() => false);
+            },
         }
     );
 
     const searchSubmit = () => {
-        console.log([
-            selectedBookType.option.value,
-            selectedCategory.option.value,
-            selectedSearchType.option.value,
-        ]);
+        setSearchRefresh(() => true);
     };
 
     const selectedBookType = useReactSelect({ value: 0, label: "전체" });
