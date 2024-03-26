@@ -7,19 +7,16 @@ import { useQuery } from "react-query";
 import { searchBooksRequest } from "../../apis/api/bookApi";
 import { useSearchParams } from "react-router-dom";
 
-function AdminBookSearch({
-    searchRefresh,
-    setSearchRefresh,
-    selectStyle,
-    bookTypeOptions,
-    categoryOptions,
-}) {
+function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
     const [searchParams] = useSearchParams();
+    const searchCount = 20;
+
     const searchBooksQuery = useQuery(
         ["searchBooksQuery", searchParams.get("page")],
         async () =>
             await searchBooksRequest({
                 page: searchParams.get("page"),
+                count: searchCount,
                 bookTypeId: selectedBookType.option.value,
                 categoryId: selectedCategory.option.value,
                 searchTypeId: selectedSearchType.option.value,
@@ -27,19 +24,14 @@ function AdminBookSearch({
             }),
         {
             refetchOnWindowFocus: false,
-            enabled: searchRefresh,
             onSuccess: (response) => {
                 console.log(response);
-                setSearchRefresh(() => false);
-            },
-            onError: (error) => {
-                setSearchRefresh(() => false);
             },
         }
     );
 
     const searchSubmit = () => {
-        setSearchRefresh(() => true);
+        searchBooksQuery.refetch();
     };
 
     const selectedBookType = useReactSelect({ value: 0, label: "전체" });
@@ -118,150 +110,6 @@ function AdminBookSearch({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
                         <tr>
                             <td>
                                 <input type="checkbox" />

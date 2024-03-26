@@ -20,7 +20,6 @@ import AdminBookSearch from "../../../components/AdminBookSearch/AdminBookSearch
 function BookManagement(props) {
     const [bookTypeOptions, setBookTypeOptions] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
-    const [searchRefresh, setSearchRefresh] = useState(false);
     const fileRef = useRef();
     const inputRefs = [
         useRef(), // 0 bookId
@@ -268,8 +267,6 @@ function BookManagement(props) {
                 </table>
             </div>
             <AdminBookSearch
-                searchRefresh={searchRefresh}
-                setSearchRefresh={setSearchRefresh}
                 selectStyle={selectStyle}
                 bookTypeOptions={bookTypeOptions}
                 categoryOptions={categoryOptions}
