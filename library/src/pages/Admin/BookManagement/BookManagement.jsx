@@ -15,6 +15,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../apis/firebase/config/firebaseConfig";
 import { v4 as uuid } from "uuid";
 import { registerBookRequest } from "../../../apis/api/bookApi";
+import AdminBookSearch from "../../../components/AdminBookSearch/AdminBookSearch";
 
 function BookManagement(props) {
     const [bookTypeOptions, setBookTypeOptions] = useState([]);
@@ -189,6 +190,7 @@ function BookManagement(props) {
                                     onKeyDown={bookTypeId.handleOnKeyDown}
                                     onChange={bookTypeId.handleOnChange}
                                     ref={inputRefs[2]}
+                                    placeholder=""
                                 />
                             </td>
                             <th css={s.registerTh}>카테고리</th>
@@ -199,6 +201,7 @@ function BookManagement(props) {
                                     onKeyDown={categoryId.handleOnKeyDown}
                                     onChange={categoryId.handleOnChange}
                                     ref={inputRefs[3]}
+                                    placeholder=""
                                 />
                             </td>
                         </tr>
@@ -262,8 +265,12 @@ function BookManagement(props) {
                         </tr>
                     </tbody>
                 </table>
-                <div></div>
             </div>
+            <AdminBookSearch
+                selectStyle={selectStyle}
+                bookTypeOptions={bookTypeOptions}
+                categoryOptions={categoryOptions}
+            />
         </div>
     );
 }
