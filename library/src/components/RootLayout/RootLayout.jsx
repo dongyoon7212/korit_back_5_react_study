@@ -12,7 +12,13 @@ function RootLayout({ children }) {
 
     return (
         <>
-            <div css={s.background}></div>
+            <div css={s.background}>
+                <div>
+                    <div css={s.wave}></div>
+                    <div css={s.wave}></div>
+                    <div css={s.wave}></div>
+                </div>
+            </div>
             <dir css={s.layout} onClick={hanleBackgroundClick}>
                 {children}
             </dir>

@@ -1,14 +1,43 @@
 /** @jsxImportSource @emotion/react */
 import Select from "react-select";
 import * as s from "./style";
-import { useState } from "react";
 import { useReactSelect } from "../../hooks/useReactSelect";
+import { useBookRegisterInput } from "../../hooks/useBookRegisterInput";
+import { useQuery } from "react-query";
+import { searchBooksRequest } from "../../apis/api/bookApi";
 
-function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
-    const selectedBookType = useReactSelect();
-    const selectedCategory = useReactSelect();
-    const selectedSearchType = useReactSelect();
-    const [searchText, setSearchText] = useState("");
+function AdminBookSearch({
+    searchBooksRefresh,
+    selectStyle,
+    bookTypeOptions,
+    categoryOptions,
+}) {
+    const searchBooksQuery = useQuery(
+        ["searchBooksQuery"],
+        async () => await searchBooksRequest(),
+        {
+            refetchOnWindowFocus: false,
+            enabled: searchBooksRefresh,
+            onSuccess: (response) => {
+                console.log(response);
+                
+            },
+            onError: (error) => {},
+        }
+    );
+
+    const searchSubmit = () => {
+        console.log([
+            selectedBookType.option.value,
+            selectedCategory.option.value,
+            selectedSearchType.option.value,
+        ]);
+    };
+
+    const selectedBookType = useReactSelect({ value: 0, label: "전체" });
+    const selectedCategory = useReactSelect({ value: 0, label: "전체" });
+    const selectedSearchType = useReactSelect({ value: 0, label: "전체" });
+    const searchText = useBookRegisterInput(searchSubmit);
 
     const searchTypeOptions = [
         { value: 0, label: "전체" },
@@ -35,19 +64,31 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
                 <Select
                     styles={selectStyle2}
                     options={[{ value: 0, label: "전체" }, ...bookTypeOptions]}
-                    defaultValue={{ value: 0, label: "전체" }}
+                    defaultValue={selectedBookType.defaultValue}
+                    value={selectedBookType.option}
+                    onChange={selectedBookType.handleOnChange}
                 />
                 <Select
                     styles={selectStyle2}
                     options={[{ value: 0, label: "전체" }, ...categoryOptions]}
-                    defaultValue={{ value: 0, label: "전체" }}
+                    defaultValue={selectedCategory.defaultValue}
+                    value={selectedCategory.option}
+                    onChange={selectedCategory.handleOnChange}
                 />
                 <Select
                     styles={selectStyle}
                     options={searchTypeOptions}
-                    defaultValue={{ value: 0, label: "전체" }}
+                    defaultValue={selectedSearchType.defaultValue}
+                    value={selectedSearchType.option}
+                    onChange={selectedSearchType.handleOnChange}
                 />
-                <input css={s.searchInput} type="text" />
+                <input
+                    css={s.searchInput}
+                    type="text"
+                    value={searchText.value}
+                    onChange={searchText.handleOnChange}
+                    onKeyDown={searchText.handleOnKeyDown}
+                />
                 <button css={s.searchButton}>검색</button>
             </div>
             <div css={s.tableLayout}>
