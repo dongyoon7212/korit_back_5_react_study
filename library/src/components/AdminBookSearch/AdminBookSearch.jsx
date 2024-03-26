@@ -17,10 +17,10 @@ function AdminBookSearch({
         ["searchBooksQuery"],
         async () =>
             await searchBooksRequest({
-                bookTypeId: 0,
-                categoryId: 0,
-                searchTypeId: 0,
-                searchText: "",
+                bookTypeId: selectedBookType.option.value,
+                categoryId: selectedCategory.option.value,
+                searchTypeId: selectedSearchType.option.value,
+                searchText: searchText.value,
             }),
         {
             refetchOnWindowFocus: false,
@@ -94,7 +94,9 @@ function AdminBookSearch({
                     onChange={searchText.handleOnChange}
                     onKeyDown={searchText.handleOnKeyDown}
                 />
-                <button css={s.searchButton}>검색</button>
+                <button css={s.searchButton} onClick={() => searchSubmit()}>
+                    검색
+                </button>
             </div>
             <div css={s.tableLayout}>
                 <table css={s.table}>
