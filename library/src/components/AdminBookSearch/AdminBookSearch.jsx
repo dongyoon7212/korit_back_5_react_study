@@ -1,8 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import Select from "react-select";
 import * as s from "./style";
+import { useState } from "react";
+import { useReactSelect } from "../../hooks/useReactSelect";
 
 function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
+    const selectedBookType = useReactSelect();
+    const selectedCategory = useReactSelect();
+    const selectedSearchType = useReactSelect();
+    const [searchText, setSearchText] = useState("");
+
     const searchTypeOptions = [
         { value: 0, label: "전체" },
         { value: 1, label: "도서명" },
