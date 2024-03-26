@@ -5,6 +5,7 @@ import { useReactSelect } from "../../hooks/useReactSelect";
 import { useBookRegisterInput } from "../../hooks/useBookRegisterInput";
 import { useQuery } from "react-query";
 import { searchBooksRequest } from "../../apis/api/bookApi";
+import { useSearchParams } from "react-router-dom";
 
 function AdminBookSearch({
     searchRefresh,
@@ -13,10 +14,12 @@ function AdminBookSearch({
     bookTypeOptions,
     categoryOptions,
 }) {
+    const [searchParams] = useSearchParams();
     const searchBooksQuery = useQuery(
-        ["searchBooksQuery"],
+        ["searchBooksQuery", searchParams.get("page")],
         async () =>
             await searchBooksRequest({
+                page: searchParams.get("page"),
                 bookTypeId: selectedBookType.option.value,
                 categoryId: selectedCategory.option.value,
                 searchTypeId: selectedSearchType.option.value,
