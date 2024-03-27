@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /** @jsxImportSource @emotion/react */
 import Select from "react-select";
 import * as s from "./style";

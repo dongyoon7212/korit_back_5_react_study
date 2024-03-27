@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /** @jsxImportSource @emotion/react */
 import { Link, useSearchParams } from "react-router-dom";
 import * as s from "./style";
