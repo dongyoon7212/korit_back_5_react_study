@@ -4,18 +4,42 @@ import * as s from "./style";
 import { useReactSelect } from "../../hooks/useReactSelect";
 import { useBookRegisterInput } from "../../hooks/useBookRegisterInput";
 import { useQuery } from "react-query";
-import { searchBooksRequest } from "../../apis/api/bookApi";
+import {
+    getBookCountRequest,
+    searchBooksRequest,
+} from "../../apis/api/bookApi";
 import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
 function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
     const [searchParams] = useSearchParams();
     const searchCount = 20;
+    const [bookList, setBookList] = useState([]);
 
     const searchBooksQuery = useQuery(
         ["searchBooksQuery", searchParams.get("page")],
         async () =>
             await searchBooksRequest({
                 page: searchParams.get("page"),
+                count: searchCount,
+                bookTypeId: selectedBookType.option.value,
+                categoryId: selectedCategory.option.value,
+                searchTypeId: selectedSearchType.option.value,
+                searchText: searchText.value,
+            }),
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log(response);
+                setBookList(() => response.data);
+            },
+        }
+    );
+
+    const getBookCountQuery = useQuery(
+        ["getBookCountQuery", searchBooksQuery.data],
+        async () =>
+            await getBookCountRequest({
                 count: searchCount,
                 bookTypeId: selectedBookType.option.value,
                 categoryId: selectedCategory.option.value,
@@ -107,21 +131,25 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
                             <th>ISBN</th>
                             <th>도서형식</th>
                             <th>카테고리</th>
+                            <th>표지URL</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        {bookList.map((book) => (
+                            <tr key={book.bookId}>
+                                <td>
+                                    <input type="checkbox" />
+                                </td>
+                                <td>{book.bookId}</td>
+                                <td>{book.bookName}</td>
+                                <td>{book.authorName}</td>
+                                <td>{book.publisherName}</td>
+                                <td>{book.isbn}</td>
+                                <td>{book.bookTypeName}</td>
+                                <td>{book.categoryName}</td>
+                                <td>{book.coverImgUrl}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
