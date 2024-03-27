@@ -9,13 +9,17 @@ import {
     searchBooksRequest,
 } from "../../apis/api/bookApi";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminBookSearchPageNumbers from "../AdminBookSearchPageNumbers/AdminBookSearchPageNumbers";
 
 function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const searchCount = 20;
     const [bookList, setBookList] = useState([]);
+    const [checkAll, setCheckAll] = useState({
+        checked: false,
+        target: 1, // 1 -> 전체 선택, 2 -> 부분 선택
+    });
 
     const searchBooksQuery = useQuery(
         ["searchBooksQuery", searchParams.get("page")],
@@ -32,7 +36,14 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
             refetchOnWindowFocus: false,
             onSuccess: (response) => {
                 console.log(response);
-                setBookList(() => response.data);
+                setBookList(() =>
+                    response.data.map((book) => {
+                        return {
+                            ...book,
+                            checked: false,
+                        };
+                    })
+                );
             },
         }
     );
@@ -86,6 +97,64 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
         }),
     };
 
+    useEffect(() => {
+        if (checkAll.target === 1) {
+            setBookList(() =>
+                bookList.map((book) => {
+                    return {
+                        ...book,
+                        checked: checkAll.checked,
+                    };
+                })
+            );
+        }
+    }, [checkAll.checked]);
+
+    const handleCheckAllOnChange = (e) => {
+        setCheckAll(() => {
+            return {
+                checked: e.target.checked,
+                target: 1,
+            };
+        });
+    };
+
+    useEffect(() => {
+        const findCount = bookList.filter(
+            (book) => book.checked === false
+        ).length;
+        if (findCount === 0) {
+            setCheckAll(() => {
+                return {
+                    checked: true,
+                    target: 2,
+                };
+            });
+        } else {
+            setCheckAll(() => {
+                return {
+                    checked: false,
+                    target: 2,
+                };
+            });
+        }
+    }, [bookList]);
+
+    const handleCheckOnChange = (e) => {
+        const bookId = parseInt(e.target.value);
+        setBookList(() =>
+            bookList.map((book) => {
+                if (book.bookId === bookId) {
+                    return {
+                        ...book,
+                        checked: e.target.checked,
+                    };
+                }
+                return book;
+            })
+        );
+    };
+
     return (
         <div>
             <div css={s.searchBar}>
@@ -126,7 +195,11 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
                     <thead>
                         <tr css={s.theadTr}>
                             <th>
-                                <input type="checkbox" />
+                                <input
+                                    type="checkbox"
+                                    checked={checkAll.checked}
+                                    onChange={handleCheckAllOnChange}
+                                />
                             </th>
                             <th>코드번호</th>
                             <th>도서명</th>
@@ -142,7 +215,12 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
                         {bookList.map((book) => (
                             <tr key={book.bookId}>
                                 <td>
-                                    <input type="checkbox" />
+                                    <input
+                                        type="checkbox"
+                                        value={book.bookId}
+                                        checked={book.checked}
+                                        onChange={handleCheckOnChange}
+                                    />
                                 </td>
                                 <td>{book.bookId}</td>
                                 <td>{book.bookName}</td>
