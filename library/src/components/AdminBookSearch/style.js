@@ -39,7 +39,7 @@ export const searchButton = css`
 export const tableLayout = css`
     position: relative;
     border: 1px solid #dbdbdb;
-    height: 160px; // 160
+    height: 190px; // 160
     background-color: white;
     overflow: auto;
 

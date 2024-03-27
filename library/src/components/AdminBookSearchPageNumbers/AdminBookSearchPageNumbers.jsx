@@ -19,7 +19,7 @@ function AdminBookSearchPageNumbers({ bookCount }) {
                 : startPageNumber + 9;
         let pageNumbers = [];
 
-        for (let i = startPageNumber; i < endPageNumber; i++) {
+        for (let i = startPageNumber; i <= endPageNumber; i++) {
             pageNumbers = [...pageNumbers, i];
         }
 
@@ -55,7 +55,12 @@ function AdminBookSearchPageNumbers({ bookCount }) {
                     </Link>
                 )}
             </div>
-            <div css={s.pageCount}></div>
+            <div css={s.pageCount}>
+                <div css={s.page}>
+                    Page : {page} of {bookCount.maxPageNumber}
+                </div>
+                <div css={s.count}>Count : {bookCount.totalCount}</div>
+            </div>
         </div>
     );
 }

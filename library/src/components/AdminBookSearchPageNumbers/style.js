@@ -29,4 +29,24 @@ export const pageButton = (isSelected) => css`
     color: ${isSelected ? "#777777" : "#777777"};
 `;
 
-export const pageCount = css``;
+export const pageCount = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+    height: 25px;
+    background-color: white;
+    color: #777777;
+    padding: 5px 10px;
+    cursor: default;
+`;
+
+export const page = css`
+    font-size: 14px;
+    margin-right: 10px;
+`;
+
+export const count = css`
+    font-size: 14px;
+`;
