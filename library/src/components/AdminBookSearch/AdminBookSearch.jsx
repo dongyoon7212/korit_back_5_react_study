@@ -13,7 +13,7 @@ import { useState } from "react";
 import AdminBookSearchPageNumbers from "../AdminBookSearchPageNumbers/AdminBookSearchPageNumbers";
 
 function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const searchCount = 20;
     const [bookList, setBookList] = useState([]);
 
@@ -56,6 +56,9 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
     );
 
     const searchSubmit = () => {
+        setSearchParams({
+            page: 1,
+        });
         searchBooksQuery.refetch();
     };
 
