@@ -10,6 +10,7 @@ import {
 } from "../../apis/api/bookApi";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import AdminBookSearchPageNumbers from "../AdminBookSearchPageNumbers/AdminBookSearchPageNumbers";
 
 function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
     const [searchParams] = useSearchParams();
@@ -153,7 +154,13 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
                     </tbody>
                 </table>
             </div>
-            <div></div>
+            <div>
+                {!getBookCountQuery.isLoading && (
+                    <AdminBookSearchPageNumbers
+                        bookCount={getBookCountQuery.data?.data}
+                    />
+                )}
+            </div>
         </div>
     );
 }
