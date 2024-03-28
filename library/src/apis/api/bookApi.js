@@ -16,6 +16,9 @@ export const deleteBooksRequest = async (data) => {
     return await instance.delete("/admin/books", { data });
 };
 
+export const updateBookRequest = async (data) => {
+    return await instance.put(`/admin/book/${data.bookId}`, data);
+};
 
 /**
  * Post 요청 => post("주소", data(객체 -> JSON), {option});
@@ -26,7 +29,7 @@ export const deleteBooksRequest = async (data) => {
  *                      }
  *                   }
  *                 )
- * Delete 요청 => 
+ * Delete 요청 =>
  * delete("주소", {
  *      headers: {},
  *      data: {
