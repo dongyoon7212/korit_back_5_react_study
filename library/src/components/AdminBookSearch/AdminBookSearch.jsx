@@ -81,7 +81,10 @@ function AdminBookSearch({
     const deleteBooksMutation = useMutation({
         mutationKey: "deleteBooksMutation",
         mutationFn: deleteBooksRequest,
-        onSuccess: (response) => {},
+        onSuccess: (response) => {
+            alert("삭제완료");
+            window.location.replace("/admin/book/management?page=1");
+        },
     });
 
     useEffect(() => {

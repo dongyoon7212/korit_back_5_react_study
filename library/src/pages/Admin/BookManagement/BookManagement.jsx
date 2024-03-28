@@ -75,7 +75,8 @@ function BookManagement(props) {
         mutationKey: "registerBookMutation",
         mutationFn: registerBookRequest,
         onSuccess: (response) => {
-            alert("책이 정상적으로 등록되었습니다.");
+            alert("등록완료");
+            window.location.replace("/admin/book/management?page=1");
         },
         onError: (error) => {},
     });
