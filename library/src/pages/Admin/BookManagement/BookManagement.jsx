@@ -23,6 +23,7 @@ function BookManagement(props) {
     const [bookTypeOptions, setBookTypeOptions] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [actionStatus, setActionStatus] = useState(0); // 0 = 선택, 1 = 추가, 2 = 수정, 3 = 삭제
+    const [isDelete, setDelete] = useState(false);
     const fileRef = useRef();
     const inputRefs = [
         useRef(), // 0 bookId
@@ -73,7 +74,9 @@ function BookManagement(props) {
     const registerBookMutation = useMutation({
         mutationKey: "registerBookMutation",
         mutationFn: registerBookRequest,
-        onSuccess: (response) => {},
+        onSuccess: (response) => {
+            alert("책이 정상적으로 등록되었습니다.");
+        },
         onError: (error) => {},
     });
 
@@ -92,7 +95,12 @@ function BookManagement(props) {
                 publisherName: publisherName.value,
                 coverImgUrl: imgUrl.value,
             });
+        } else if (actionStatus === 2) {
+        } else if (actionStatus === 3) {
+            setDelete(() => true);
         }
+
+        cancel();
     };
 
     const cancel = () => {
@@ -341,6 +349,8 @@ function BookManagement(props) {
                 selectStyle={selectStyle}
                 bookTypeOptions={bookTypeOptions}
                 categoryOptions={categoryOptions}
+                isDelete={isDelete}
+                setDelete={setDelete}
             />
         </div>
     );

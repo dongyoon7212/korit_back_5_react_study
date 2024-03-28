@@ -4,8 +4,9 @@ import Select from "react-select";
 import * as s from "./style";
 import { useReactSelect } from "../../hooks/useReactSelect";
 import { useBookRegisterInput } from "../../hooks/useBookRegisterInput";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import {
+    deleteBooksRequest,
     getBookCountRequest,
     searchBooksRequest,
 } from "../../apis/api/bookApi";
@@ -15,7 +16,13 @@ import AdminBookSearchPageNumbers from "../AdminBookSearchPageNumbers/AdminBookS
 import { useRecoilState } from "recoil";
 import { selectedBookState } from "../../atoms/adminSelectedBookAtom";
 
-function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
+function AdminBookSearch({
+    selectStyle,
+    bookTypeOptions,
+    categoryOptions,
+    isDelete,
+    setDelete,
+}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const searchCount = 20;
     const [bookList, setBookList] = useState([]);
@@ -70,6 +77,22 @@ function AdminBookSearch({ selectStyle, bookTypeOptions, categoryOptions }) {
             },
         }
     );
+
+    const deleteBooksMutation = useMutation({
+        mutationKey: "deleteBooksMutation",
+        mutationFn: deleteBooksRequest,
+        onSuccess: (response) => {},
+    });
+
+    useEffect(() => {
+        if (isDelete) {
+            const deleteBooks = bookList
+                .filter((book) => book.checked)
+                .map((book) => book.bookId);
+            deleteBooksMutation.mutate(deleteBooks);
+        }
+        setDelete(() => false);
+    }, [isDelete]);
 
     const searchSubmit = () => {
         setSearchParams({
