@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Box from "../Box/Box";
+import Box2 from "../Box2/Box2";
 
 function StateStudy(props) {
     const inputState = useState("");
@@ -20,7 +22,7 @@ function StateStudy(props) {
         };
     }, [inputState2[0]]);
 
-    console.log("렌더링2")
+    console.log("렌더링2");
 
     const handleTextInputOnchange = (e) => {
         let [value, setValue] = [null, null];
@@ -47,6 +49,8 @@ function StateStudy(props) {
                 name="inputB"
                 onChange={handleTextInputOnchange}
             />
+            <Box value={inputState[0]} />
+            <Box2 value={inputState2[0]} />
         </div>
     );
 }
